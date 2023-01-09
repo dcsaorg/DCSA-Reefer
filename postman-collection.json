@@ -1,0 +1,79 @@
+{
+	"info": {
+		"_postman_id": "d188965e-cc6d-4f55-b63d-f5d19ac7d53b",
+		"name": "DCSA-Reefer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "GET Health",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const parsedBody = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"status is UP\", () => {",
+									"    pm.expect(parsedBody.status).to.eql(\"UP\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{HEALTH_ENDPOINT}}",
+							"host": [
+								"{{BASE_URL}}{{HEALTH_ENDPOINT}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:9090",
+			"type": "default"
+		},
+		{
+			"key": "HEALTH_ENDPOINT",
+			"value": "/actuator/health",
+			"type": "default"
+		}
+	]
+}

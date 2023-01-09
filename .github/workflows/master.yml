@@ -1,0 +1,69 @@
+name: DCSA-Reefer MASTER CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: DCSA-Reefer
+          submodules: recursive
+
+      - name: Set up Java JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: 17
+          cache: 'maven'
+
+      - name: maven-settings-xml-action
+        uses: whelk-io/maven-settings-xml-action@v12
+        with:
+          repositories: '[{ "id": "github", "name": "DCSA Backend repo", "url": "https://maven.pkg.github.com/dcsaorg/DCSA-Core", "releases": { "enabled": "true" }, "snapshots": { "enabled": "true" } }]'
+          servers: '[{ "id": "github", "username": "${{ secrets.DCSA_USER }}", "password": "${{ secrets.DCSA_PACKAGES_PAT }}" }]'
+
+      - name: Build Reefer
+        run: cd DCSA-Reefer && mvn clean -U -B package -Ddcsa.artifacttype=-SNAPSHOT
+
+      - name: Build and run the microservices
+        run: cd DCSA-Reefer && docker-compose -f docker-compose.yml --env-file=.github/.env up -d -V --build
+
+      - name: Fetch Backend Status
+        run: |
+          sleep 10
+          status=$(curl -s http://localhost:9090/actuator/health | jq -r '.status')
+          retries=12
+
+          while [[ "$status" != "UP" ]] && [[ $retries -gt 0 ]]; do
+            echo "Status is '$status' - waiting 5 secs ($retries retries left)"
+            sleep 5
+            retries=$((retries - 1))
+            status=$(curl -s http://localhost:9090/actuator/health | jq -r '.status')
+          done
+
+          echo "Final status is '$status'"
+          if [[ "$status" != "UP" ]]; then
+            curl -v http://localhost:9090/actuator/health || :
+            docker ps || :
+            docker logs dcsa-reefer-dcsa-reefer-1 || :
+            exit 1
+          fi
+
+      - name: Run Postman Integration Tests
+        id: run-newman
+        uses: anthonyvscode/newman-action@v1
+        with:
+          collection: DCSA-Reefer/postman-collection.json
+          reporters: cli
+          insecure: true
+
+      - name: Output summary to console
+        run: echo ${{ steps.run-newman.outputs.summary }}
