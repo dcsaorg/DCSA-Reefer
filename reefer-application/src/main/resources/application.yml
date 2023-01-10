@@ -4,6 +4,11 @@ dcsa:
     by-prefix:
       - prefix: /reefer/v1
         version: 1.0
+  reefer:
+    cache:
+      delay: 60000
+      initial-delay: 2000
+      max-queue-results: 100
 
 spring:
   application:
@@ -48,6 +53,18 @@ logging:
     org:
       springframework: ${SPRING_LOG_LEVEL:INFO}
       dcsa: ${DCSA_LOG_LEVEL:INFO}
+
+---
+# A profile for production settings
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+dcsa:
+  reefer:
+    cache:
+      delay: 10000
 
 ---
 # A profile for disabling security
