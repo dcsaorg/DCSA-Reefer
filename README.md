@@ -7,7 +7,7 @@ Setup a Github Personal Access Token as mentioned [here](https://github.com/dcsa
 
 If you would like to build required DCSA packages individually, begin with step 1.
 
-1) Clone **DCSA-Reefer-API** (with ``--recurse-submodules`` option.) and Build using, ``mvn package``
+1) Clone **DCSA-Reefer-Commercial** (with ``--recurse-submodules`` option.) and Build using, ``mvn package``
 
 2) Initialize your local postgresql database as described in [datamodel/README.md](https://github.com/dcsaorg/DCSA-Information-Model/blob/master/README.md) \
    or If you have docker installed, you may skip this step and use the docker-compose command mentioned below to set it up (This will initialize the application along with the database).
@@ -35,4 +35,4 @@ curl http://localhost:9090/v1/actuator/health
 
 This reference implementation does not do any authentication/authorization and should not be used
 in production as is. Using this as is in production would expose data for all parties to all other
-parties with out checking weather they should have access.
+parties without checking whether they should have access.
