@@ -10,19 +10,19 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>org.dcsa.reefer</groupId>
-	<artifactId>dcsa-reefer-parent</artifactId>
+	<groupId>org.dcsa.reefer.commercial</groupId>
+	<artifactId>dcsa-reefer-commercial-parent</artifactId>
 	<version>${revision}${sha1}${changelist}</version>
 	<packaging>pom</packaging>
-	<name>DCSA-Reefer</name>
-	<description>Reefer (Booking + EBL)</description>
+	<name>DCSA Reefer Commercial</name>
+	<description>Reefer Commercial</description>
 
 	<properties>
-		<!-- Define DCSA-Reefer version -->
+		<!-- Define DCSA-Reefer-Commercial version -->
 		<revision>1.0.0</revision>
 		<sha1/>
 		<changelist>-SNAPSHOT</changelist>
-		<!-- End: Define DCSA-Reefer version -->
+		<!-- End: Define DCSA-Reefer-Commercial version -->
 
 		<!-- Define Shared Kernel version -->
 		<dcsa.shared-kernel.version>0.3.0</dcsa.shared-kernel.version>
@@ -36,10 +36,10 @@
 	</properties>
 
 	<modules>
-		<module>reefer-transfer-obj</module>
-		<module>reefer-domain</module>
-		<module>reefer-service</module>
-		<module>reefer-application</module>
+		<module>reefer-commercial-transfer-obj</module>
+		<module>reefer-commercial-domain</module>
+		<module>reefer-commercial-service</module>
+		<module>reefer-commercial-application</module>
 	</modules>
 
 	<dependencies>
@@ -65,18 +65,18 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.dcsa.reefer</groupId>
-				<artifactId>dcsa-reefer-transfer-obj</artifactId>
+				<groupId>org.dcsa.reefer.commercial</groupId>
+				<artifactId>dcsa-reefer-commercial-transfer-obj</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.dcsa.reefer</groupId>
-				<artifactId>dcsa-reefer-domain</artifactId>
+				<groupId>org.dcsa.reefer.commercial</groupId>
+				<artifactId>dcsa-reefer-commercial-domain</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.dcsa.reefer</groupId>
-				<artifactId>dcsa-reefer-service</artifactId>
+				<groupId>org.dcsa.reefer.commercial</groupId>
+				<artifactId>dcsa-reefer-commercial-service</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
