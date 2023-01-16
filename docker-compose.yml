@@ -18,11 +18,11 @@ services:
             max-size: 200k
 
     dcsa-test-db:
+        image: postgres:15-alpine
         container_name: dcsa_db
         environment:
             POSTGRES_PASSWORD: "change_this_password"
-        build:
-            DCSA-Information-Model/datamodel/
+        volumes:
+            - ./reefer-commercial-domain/src/main/init.db:/docker-entrypoint-initdb.d:ro
         ports:
             - 5432:5432
-

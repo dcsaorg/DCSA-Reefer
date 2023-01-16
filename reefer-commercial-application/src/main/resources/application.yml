@@ -3,7 +3,7 @@ dcsa:
   specification:
     by-prefix:
       - prefix: /reefer-commercial/v1
-        version: 1.0
+        version: 1.0.0
   reefer-commercial:
     cache:
       delay: 60000
@@ -18,8 +18,6 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://${db_hostname}/dcsa_openapi
     username: dcsa_db_owner
-    hikari:
-      schema: dcsa_im_v3_0
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate.ddl-auto: validate
