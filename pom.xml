@@ -25,7 +25,7 @@
 		<!-- End: Define DCSA-Reefer-Commercial version -->
 
 		<!-- Define Shared Kernel version -->
-		<dcsa.shared-kernel.version>0.3.0</dcsa.shared-kernel.version>
+		<dcsa.shared-kernel.version>0.4.0</dcsa.shared-kernel.version>
 		<dcsa.shared-kernel.tag/>
 		<dcsa.shared-kernel.artifacttype>-SNAPSHOT</dcsa.shared-kernel.artifacttype>
 		<shared-kernel.version>${dcsa.shared-kernel.version}${dcsa.shared-kernel.tag}${dcsa.shared-kernel.artifacttype}

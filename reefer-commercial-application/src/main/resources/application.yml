@@ -16,7 +16,7 @@ spring:
     context-path: /reefer-commercial/v1
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${db_hostname}/dcsa_openapi
+    url: jdbc:postgresql://${db_hostname}/dcsa_reefer_commercial
     username: dcsa_db_owner
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -86,7 +86,7 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${db_hostname:localhost}/dcsa_openapi
+    url: jdbc:postgresql://${db_hostname:localhost}/dcsa_reefer_commercial
     username: dcsa_db_owner
     password: 9c072fe8-c59c-11ea-b8d1-7b6577e9f3f5
 
