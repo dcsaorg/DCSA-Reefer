@@ -3,6 +3,7 @@ package org.dcsa.reefer.commercial.domain.valueobjects;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.dcsa.reefer.commercial.domain.valueobjects.enums.EventClassifierCode;
@@ -10,11 +11,12 @@ import org.dcsa.reefer.commercial.domain.valueobjects.enums.ReeferEventTypeCode;
 import org.dcsa.skernel.infrastructure.validation.ISO6346EquipmentReference;
 
 import java.time.OffsetDateTime;
-import java.util.List;
+import java.util.Set;
 
 /**
  */
 @Getter
+@NoArgsConstructor
 @ToString(callSuper = true)
 @SuperBuilder(toBuilder = true)
 final public class ReeferCommercialPayloadEvent extends ReeferCommercialEvent {
@@ -28,7 +30,7 @@ final public class ReeferCommercialPayloadEvent extends ReeferCommercialEvent {
   private ReeferEventTypeCode reeferEventTypeCode;
 
   @Valid
-  private Measurements Measurements;
+  private Measurements measurements;
 
   @Valid
   private Setpoint setpoint;
@@ -39,5 +41,5 @@ final public class ReeferCommercialPayloadEvent extends ReeferCommercialEvent {
   @NotNull @ISO6346EquipmentReference
   private String equipmentReference;
 
-  private List<@Valid DocumentReference> relatedDocumentReferences;
+  private Set<@Valid DocumentReference> relatedDocumentReferences;
 }

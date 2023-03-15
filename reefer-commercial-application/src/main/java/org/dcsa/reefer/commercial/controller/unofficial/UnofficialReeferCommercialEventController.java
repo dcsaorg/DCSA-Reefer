@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.dcsa.reefer.commercial.service.unofficial.UnofficialReeferCommercialEventService;
 import org.dcsa.reefer.commercial.transferobjects.ReeferCommercialEventTO;
+import org.dcsa.reefer.commercial.transferobjects.unofficial.ReeferCommercialEventStatusTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ public class UnofficialReeferCommercialEventController {
 
   @PostMapping(path = "/events/")
   @ResponseStatus(HttpStatus.CREATED)
-  public void createEvent(@Valid @RequestBody ReeferCommercialEventTO eventTO) {
-    reeferCommercialEventService.saveReeferCommercialEvent(eventTO);
+  public ReeferCommercialEventStatusTO createEvent(@Valid @RequestBody ReeferCommercialEventTO eventTO) {
+    return reeferCommercialEventService.saveReeferCommercialEvent(eventTO);
   }
 }

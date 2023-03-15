@@ -14,6 +14,7 @@ import org.dcsa.skernel.infrastructure.http.queryparams.DCSAQueryParameterParser
 import org.dcsa.skernel.infrastructure.pagination.Pagination;
 import org.dcsa.skernel.infrastructure.sorting.Sorter.SortableFields;
 import org.dcsa.skernel.infrastructure.util.EnumUtil;
+import org.dcsa.skernel.infrastructure.validation.ISO6346EquipmentReference;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.HttpStatus;
@@ -65,7 +66,7 @@ public class ReeferCommercialEventController {
     @RequestParam(value = "carrierBookingReference", required = false)
     String carrierBookingReference,
 
-    @Size(max = 11)
+    @Size(max = 11) @ISO6346EquipmentReference
     @RequestParam(value = "equipmentReference", required = false)
     String equipmentReference,
 

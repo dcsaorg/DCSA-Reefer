@@ -3,7 +3,7 @@ CREATE TABLE reefer_commercial_event (
     event_id varchar(100) NOT NULL PRIMARY KEY,
     content jsonb NOT NULL,
     event_created_date_time timestamp with time zone NOT NULL,
-    event_date_time timestamp with time zone NOT NULL
+    event_date_time timestamp with time zone NULL
 );
 CREATE INDEX ON reefer_commercial_event (event_created_date_time);
 CREATE INDEX ON reefer_commercial_event (event_date_time);

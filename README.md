@@ -1,35 +1,66 @@
-# DCSA-Reefer
+DCSA-Reefer-Commercial
+==============================================================================================
 
-Building and Running the project,
--------------------------------------
 **[RECOMMENDED]**
-Setup a Github Personal Access Token as mentioned [here](https://github.com/dcsaorg/DCSA-Core/blob/master/README.md#how-to-use-dcsa-core-packages), then skip to **step 3**.
+Setup a Github Personal Access Token as mentioned [here](https://github.com/dcsaorg/DCSA-Core/blob/master/README.md#how-to-use-dcsa-core-packages).
 
-If you would like to build required DCSA packages individually, begin with step 1.
 
-1) Clone **DCSA-Reefer-Commercial** (with ``--recurse-submodules`` option.) and Build using, ``mvn package``
+## Cloning
 
-2) Initialize your local postgresql database as described in [datamodel/README.md](https://github.com/dcsaorg/DCSA-Information-Model/blob/master/README.md) \
-   or If you have docker installed, you may skip this step and use the docker-compose command mentioned below to set it up (This will initialize the application along with the database).
+Clone **DCSA-Reefer-Commercial** (with ``--recurse-submodules`` option).
 
-3) Run application,
+
+## Build and run using using docker-compose
+
+1) Build and run with
 ```
-mvn spring-boot:run [options]
-
-options:
- -Dspring-boot.run.arguments="--DB_HOSTNAME=localhost:5432 --LOG_LEVEL=DEBUG"
- ```
-
-OR using **docker-compose**
-
-```
+mvn -U clean package
 docker-compose up -d -V --build
 ```
 
-6) Verify if the application is running,
+2) Verify that the application is running,
 ```
-curl http://localhost:9090/v1/actuator/health
+curl http://localhost:9090/actuator/health
 ```
+
+(the database is automatically included when running with docker)
+
+
+## Building and running manually/locally
+
+Set up a postgresql database with credentials or run it in docker with
+```
+docker compose up -d dcsa-test-db
+```
+
+Then build and run the application with
+
+```
+mvn -U clean package
+mvn -pl reefer-commercial-application -am spring-boot:run
+```
+
+
+## Running from inside an IDE
+
+Set up a postgresql database with credentials or run it in docker with
+```
+docker compose up -d dcsa-test-db
+```
+
+Then make sure you modify the run environment for the ```Application``` class so it includes the following environment
+variable
+```
+SPRING_PROFILES_ACTIVE=dev
+```
+Then just start the ```Application``` class.
+
+
+## Branching and versioning
+
+The branching and devopment model is described
+[here](https://dcsa.atlassian.net/wiki/spaces/DDT/pages/71204878/Development+flow+and+CI).
+
 
 ## Security considerations
 

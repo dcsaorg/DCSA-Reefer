@@ -39,7 +39,7 @@ public class ReeferCommercialEvent {
   @Column(name = "event_created_date_time", nullable = false)
   private OffsetDateTime eventCreatedDateTime;
 
-  @Column(name = "event_date_time", nullable = false)
+  @Column(name = "event_date_time")
   private OffsetDateTime eventDateTime;
 
   @Formula("content->>'reeferEventTypeCode'")

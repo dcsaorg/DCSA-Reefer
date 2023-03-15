@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static org.dcsa.reefer.commercial.domain.valueobjects.enums.DocumentReferenceType.BKG;
+import static org.dcsa.reefer.commercial.domain.valueobjects.enums.DocumentReferenceType.CBR;
+
 @Slf4j
 @UtilityClass
 public class ReeferCommercialEventSpecification {
@@ -66,7 +69,7 @@ public class ReeferCommercialEventSpecification {
         predicates.add(root.get(ReeferCommercialEvent_.REEFER_EVENT_TYPE_CODE).in(filters.reeferEventTypeCodes.stream().map(Enum::name).toList()));
       }
 
-      handleDocumentReference(root, query, builder, predicates, Set.of(DocumentReferenceType.BKG), filters.carrierBookingReference);
+      handleDocumentReference(root, query, builder, predicates, Set.of(BKG, CBR), filters.carrierBookingReference);
 
       return builder.and(predicates.toArray(Predicate[]::new));
     };

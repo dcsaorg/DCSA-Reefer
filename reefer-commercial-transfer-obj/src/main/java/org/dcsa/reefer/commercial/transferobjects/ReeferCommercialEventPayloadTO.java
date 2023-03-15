@@ -8,20 +8,19 @@ import org.dcsa.reefer.commercial.transferobjects.enums.ReeferEventTypeCode;
 import org.dcsa.skernel.infrastructure.validation.ISO6346EquipmentReference;
 
 import java.time.OffsetDateTime;
-import java.util.List;
+import java.util.Set;
 
 public record ReeferCommercialEventPayloadTO(
   @NotNull
   EventClassifierCode eventClassifierCode,
 
-  @NotNull
   OffsetDateTime eventDateTime,
 
   @NotNull
   ReeferEventTypeCode reeferEventTypeCode,
 
   @Valid
-  MeasurementsTO Measurements,
+  MeasurementsTO measurements,
 
   @Valid
   SetpointTO setpoint,
@@ -32,7 +31,7 @@ public record ReeferCommercialEventPayloadTO(
   @NotNull @ISO6346EquipmentReference
   String equipmentReference,
 
-  List<@Valid DocumentReferenceTO> relatedDocumentReferences
+  Set<@Valid DocumentReferenceTO> relatedDocumentReferences
 ) {
   @Builder(toBuilder = true)
   public ReeferCommercialEventPayloadTO { }

@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "d188965e-cc6d-4f55-b63d-f5d19ac7d53b",
-		"name": "DCSA-Reefer",
+		"_postman_id": "19b286e6-5ed0-43f0-8492-a74a0ec05409",
+		"name": "DCSA-Reefer-Commercial",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -33,13 +33,659 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}{{HEALTH_ENDPOINT}}",
+							"raw": "{{BASE_URL}}/actuator/health",
 							"host": [
-								"{{BASE_URL}}{{HEALTH_ENDPOINT}}"
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"actuator",
+								"health"
 							]
 						}
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "GET Events",
+			"item": [
+				{
+					"name": "Insert Test Data",
+					"item": [
+						{
+							"name": "Post Test Event 1 (Unofficial)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const parsedBody = pm.response.json();",
+											"pm.collectionVariables.set(\"EVENT_ID_1\", parsedBody.eventID);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"metadata\":\n    {\n        \"eventCreatedDateTime\": \"2022-09-19T06:31:00+02:00\",\n        \"eventType\": \"REEFER\",\n        \"publisher\":\n        {\n            \"partyName\": \"Maersk\",\n            \"carrierCode\": \"MSK\",\n            \"carrierCodeListProvider\": \"SMDG\"\n        },\n        \"publisherRole\": \"CA\"\n    },\n    \"payload\":\n    {\n        \"eventClassifierCode\": \"ACT\",\n        \"eventDateTime\": \"2022-09-19T06:31:00+02:00\",\n        \"reeferEventTypeCode\": \"MEAS\",\n        \"measurements\":\n        {\n            \"ambientTemperature\": 22,\n            \"temperature\": -17.9,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.5,\n            \"co2\": 15.2,\n            \"humidity\": 88,\n            \"airExchange\": 0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"setpoint\":\n        {\n            \"temperature\": -18,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10,\n            \"co2\": 15,\n            \"humidity\": 88,\n            \"airExchange\": 0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"geoLocation\":\n        {\n            \"latitude\": \"48.85855\",\n            \"longitude\": \"2.29449203\"\n        },\n        \"equipmentReference\": \"APZU4812090\",\n        \"relatedDocumentReferences\":\n        [\n            {\n                \"type\": \"SHI\",\n                \"value\": \"ABC123059\"\n            }\n        ]\n    }\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/events/",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"unofficial",
+										"events",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post Test Event 2 (Unofficial)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const parsedBody = pm.response.json();",
+											"pm.collectionVariables.set(\"EVENT_ID_2\", parsedBody.eventID);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"metadata\":\n    {\n        \"eventCreatedDateTime\": \"2022-09-19T06:31:00+02:00\",\n        \"eventType\": \"REEFER\",\n        \"publisher\":\n        {\n            \"partyName\": \"Maersk\",\n            \"carrierCode\": \"MSK\",\n            \"carrierCodeListProvider\": \"SMDG\"\n        },\n        \"publisherRole\": \"CA\"\n    },\n    \"payload\":\n    {\n        \"eventClassifierCode\": \"ACT\",\n        \"eventDateTime\": \"2022-09-19T06:31:00+02:00\",\n        \"reeferEventTypeCode\": \"MEAS\",\n        \"measurements\":\n        {\n            \"ambientTemperature\": 22,\n            \"temperature\": -17.9,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.5,\n            \"co2\": 15.2,\n            \"humidity\": 88,\n            \"airExchange\": 0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"setpoint\":\n        {\n            \"temperature\": -18,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10,\n            \"co2\": 15,\n            \"humidity\": 88,\n            \"airExchange\": 0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"geoLocation\":\n        {\n            \"latitude\": \"48.85855\",\n            \"longitude\": \"2.29449203\"\n        },\n        \"equipmentReference\": \"MSKU9070323\",\n        \"relatedDocumentReferences\":\n        [\n            {\n                \"type\": \"BKG\",\n                \"value\": \"ABC123059\"\n            }\n        ]\n    }\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/events/",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"unofficial",
+										"events",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Positive test cases",
+					"item": [
+						{
+							"name": "Get all events",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body contains at least 2 items', () => {",
+											"    pm.expect(jsonData.length).to.above(1);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Test Event 1",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events/{{EVENT_ID_2}}",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events",
+										"{{EVENT_ID_2}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Test Event 2",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events/{{EVENT_ID_1}}",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events",
+										"{{EVENT_ID_1}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by carrierBookingReference",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body contains at least 1 items', () => {",
+											"    pm.expect(jsonData.length).to.above(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?carrierBookingReference=ABC123059",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "carrierBookingReference",
+											"value": "ABC123059"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by equipmentReference",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body contains at least 1 items', () => {",
+											"    pm.expect(jsonData.length).to.above(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?equipmentReference=APZU4812090",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "equipmentReference",
+											"value": "APZU4812090"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by reeferEventTypeCodes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body contains at least 1 items', () => {",
+											"    pm.expect(jsonData.length).to.above(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?reeferEventTypeCodes=MEAS",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "reeferEventTypeCodes",
+											"value": "MEAS"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by combi",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body contains at least 1 items', () => {",
+											"    pm.expect(jsonData.length).to.above(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?equipmentReference=MSKU9070323&carrierBookingReference=ABC123059&reeferEventTypeCodes=MEAS",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "equipmentReference",
+											"value": "MSKU9070323"
+										},
+										{
+											"key": "carrierBookingReference",
+											"value": "ABC123059"
+										},
+										{
+											"key": "reeferEventTypeCodes",
+											"value": "MEAS"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by eventCreatedDateTime",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body contains at least 1 items', () => {",
+											"    pm.expect(jsonData.length).to.above(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?eventCreatedDateTime:gt=2022-09-19T00:00:00Z",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventCreatedDateTime:gt",
+											"value": "2022-09-19T00:00:00Z"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by eventDateTime",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body contains at least 1 items', () => {",
+											"    pm.expect(jsonData.length).to.above(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?eventDateTime:gt=2022-09-19T00:00:00Z",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventDateTime:gt",
+											"value": "2022-09-19T00:00:00Z"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Negative test cases",
+					"item": [
+						{
+							"name": "Search by non-existant equipmentReference",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body is empty', () => {",
+											"    pm.expect(jsonData.length).to.eql(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?equipmentReference=NONU1234563",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "equipmentReference",
+											"value": "NONU1234563"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by non-existant carrierBookingReference",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body is empty', () => {",
+											"    pm.expect(jsonData.length).to.eql(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?carrierBookingReference=not-there",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "carrierBookingReference",
+											"value": "not-there"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by ancient eventCreatedDateTime",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body is empty', () => {",
+											"    pm.expect(jsonData.length).to.eql(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?eventCreatedDateTime=1822-09-19T04:31:00Z",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventCreatedDateTime",
+											"value": "1822-09-19T04:31:00Z"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by ancient eventDateTime",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body is empty', () => {",
+											"    pm.expect(jsonData.length).to.eql(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?eventDateTime=1822-09-19T04:31:00Z",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventDateTime",
+											"value": "1822-09-19T04:31:00Z"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Clean up context",
+			"item": [],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.collectionVariables.unset(\"EVENT_ID_1\");",
+							"pm.collectionVariables.unset(\"EVENT_ID_2\");",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}
@@ -59,6 +705,9 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
+					"pm.test(\"API-Version is present\", () => {",
+					"    pm.response.to.have.header(\"API-Version\");",
+					"});",
 					""
 				]
 			}
@@ -74,6 +723,24 @@
 			"key": "HEALTH_ENDPOINT",
 			"value": "/actuator/health",
 			"type": "default"
+		},
+		{
+			"key": "CONTEXT_PATH",
+			"value": "/reefer-commercial/v1",
+			"type": "default"
+		},
+		{
+			"key": "SPEC_VERSION",
+			"value": "1.0.0",
+			"type": "default"
+		},
+		{
+			"key": "EVENT_ID_1",
+			"value": ""
+		},
+		{
+			"key": "EVENT_ID_2",
+			"value": ""
 		}
 	]
 }
