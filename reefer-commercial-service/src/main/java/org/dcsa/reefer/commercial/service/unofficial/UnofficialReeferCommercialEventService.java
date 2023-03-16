@@ -12,6 +12,7 @@ import org.dcsa.reefer.commercial.transferobjects.EventMetadataTO;
 import org.dcsa.reefer.commercial.transferobjects.ReeferCommercialEventPayloadTO;
 import org.dcsa.reefer.commercial.transferobjects.ReeferCommercialEventTO;
 import org.dcsa.reefer.commercial.transferobjects.unofficial.ReeferCommercialEventStatusTO;
+import org.dcsa.skernel.errors.exceptions.ConcreteRequestErrorMessageException;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -30,15 +31,21 @@ public class UnofficialReeferCommercialEventService {
   public ReeferCommercialEventStatusTO saveReeferCommercialEvent(ReeferCommercialEventTO eventTO) {
     EventMetadataTO metadata = eventTO.metadata();
     ReeferCommercialEventPayloadTO payload = eventTO.payload();
+
+    if (metadata.retractedEventID() == null && payload == null) {
+      throw ConcreteRequestErrorMessageException.invalidInput("event should either have a retractedEventID or a payload");
+    }
+    if (metadata.retractedEventID() != null && payload != null) {
+      throw ConcreteRequestErrorMessageException.invalidInput("event should not have both a retractedEventID or a payload");
+    }
+
     ReeferCommercialEventTO updated = eventTO.toBuilder()
-        .metadata(
-          metadata.toBuilder()
-            .eventID(Objects.requireNonNullElseGet(metadata.eventID(), () -> UUID.randomUUID().toString()))
-            .eventCreatedDateTime(Objects.requireNonNullElseGet(metadata.eventCreatedDateTime(), OffsetDateTime::now))
-            .build())
-      .payload(
-        payload.toBuilder()
-          .eventDateTime(Objects.requireNonNullElseGet(payload.eventDateTime(), OffsetDateTime::now))
+        .metadata(metadata.toBuilder()
+          .eventID(Objects.requireNonNullElseGet(metadata.eventID(), () -> UUID.randomUUID().toString()))
+          .eventCreatedDateTime(Objects.requireNonNullElseGet(metadata.eventCreatedDateTime(), OffsetDateTime::now))
+          .build())
+      .payload(payload == null ? null : payload.toBuilder()
+        .eventDateTime(Objects.requireNonNullElseGet(payload.eventDateTime(), OffsetDateTime::now))
         .build())
       .build();
 
