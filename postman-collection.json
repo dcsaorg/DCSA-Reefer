@@ -51,10 +51,10 @@
 			"name": "GET Events",
 			"item": [
 				{
-					"name": "Insert Test Data",
+					"name": "Insert Test Data (Unofficial)",
 					"item": [
 						{
-							"name": "Post Test Event 1 (Unofficial)",
+							"name": "Post Test Event 1",
 							"event": [
 								{
 									"listen": "test",
@@ -62,6 +62,7 @@
 										"exec": [
 											"const parsedBody = pm.response.json();",
 											"pm.collectionVariables.set(\"EVENT_ID_1\", parsedBody.eventID);",
+											"pm.collectionVariables.set(\"EVENT_1_POST_BODY\", pm.request.body.raw)",
 											""
 										],
 										"type": "text/javascript"
@@ -73,7 +74,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"metadata\":\n    {\n        \"eventCreatedDateTime\": \"2022-09-19T06:31:00+02:00\",\n        \"eventType\": \"REEFER\",\n        \"publisher\":\n        {\n            \"partyName\": \"Maersk\",\n            \"carrierCode\": \"MSK\",\n            \"carrierCodeListProvider\": \"SMDG\"\n        },\n        \"publisherRole\": \"CA\"\n    },\n    \"payload\":\n    {\n        \"eventClassifierCode\": \"ACT\",\n        \"eventDateTime\": \"2022-09-19T06:31:00+02:00\",\n        \"reeferEventTypeCode\": \"MEAS\",\n        \"measurements\":\n        {\n            \"ambientTemperature\": 22,\n            \"temperature\": -17.9,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.5,\n            \"co2\": 15.2,\n            \"humidity\": 88,\n            \"airExchange\": 0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"setpoint\":\n        {\n            \"temperature\": -18,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10,\n            \"co2\": 15,\n            \"humidity\": 88,\n            \"airExchange\": 0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"geoLocation\":\n        {\n            \"latitude\": \"48.85855\",\n            \"longitude\": \"2.29449203\"\n        },\n        \"equipmentReference\": \"APZU4812090\",\n        \"relatedDocumentReferences\":\n        [\n            {\n                \"type\": \"SHI\",\n                \"value\": \"ABC123059\"\n            }\n        ]\n    }\n}\n",
+									"raw": "{\n    \"metadata\": {\n        \"eventType\": \"REEFER\",\n        \"eventCreatedDateTime\": \"2022-09-19T04:31:00Z\",\n        \"publisher\": {\n            \"partyName\": \"Maersk\",\n            \"carrierCode\": \"MSK\",\n            \"carrierCodeListProvider\": \"SMDG\"\n        },\n        \"publisherRole\": \"CA\"\n    },\n    \"payload\": {\n        \"eventClassifierCode\": \"ACT\",\n        \"eventDateTime\": \"2022-09-19T04:31:00Z\",\n        \"reeferEventTypeCode\": \"MEAS\",\n        \"measurements\": {\n            \"ambientTemperature\": 22.0,\n            \"temperature\": -17.9,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.5,\n            \"co2\": 15.2,\n            \"humidity\": 88.0,\n            \"airExchange\": 0.0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"setpoint\": {\n            \"temperature\": -18.0,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.0,\n            \"co2\": 15.0,\n            \"humidity\": 88.0,\n            \"airExchange\": 0.0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"geoLocation\": {\n            \"latitude\": \"48.85855\",\n            \"longitude\": \"2.29449203\"\n        },\n        \"equipmentReference\": \"APZU4812090\",\n        \"relatedDocumentReferences\": [\n            {\n                \"type\": \"SHI\",\n                \"value\": \"ABC123059\"\n            }\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -95,7 +96,7 @@
 							"response": []
 						},
 						{
-							"name": "Post Test Event 2 (Unofficial)",
+							"name": "Post Test Event 2",
 							"event": [
 								{
 									"listen": "test",
@@ -103,6 +104,7 @@
 										"exec": [
 											"const parsedBody = pm.response.json();",
 											"pm.collectionVariables.set(\"EVENT_ID_2\", parsedBody.eventID);",
+											"pm.collectionVariables.set(\"EVENT_2_POST_BODY\", pm.request.body.raw)",
 											""
 										],
 										"type": "text/javascript"
@@ -114,7 +116,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"metadata\":\n    {\n        \"eventCreatedDateTime\": \"2022-09-19T06:31:00+02:00\",\n        \"eventType\": \"REEFER\",\n        \"retractedEventID\": \"f373c374-4d83-4387-8896-a0c7c6d4bde6\",\n        \"publisher\":\n        {\n            \"partyName\": \"Maersk\",\n            \"carrierCode\": \"MSK\",\n            \"carrierCodeListProvider\": \"SMDG\"\n        },\n        \"publisherRole\": \"CA\"\n    }\n}\n",
+									"raw": "{\n    \"metadata\": {\n        \"eventType\": \"REEFER\",\n        \"eventCreatedDateTime\": \"2022-09-19T04:31:00Z\",\n        \"publisher\": {\n            \"partyName\": \"Maersk\",\n            \"carrierCode\": \"MSK\",\n            \"carrierCodeListProvider\": \"SMDG\"\n        },\n        \"publisherRole\": \"CA\"\n    },\n    \"payload\": {\n        \"eventClassifierCode\": \"ACT\",\n        \"eventDateTime\": \"2022-09-19T04:31:00Z\",\n        \"reeferEventTypeCode\": \"MEAS\",\n        \"measurements\": {\n            \"ambientTemperature\": 22.0,\n            \"temperature\": -17.9,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.5,\n            \"co2\": 15.2,\n            \"humidity\": 88.0,\n            \"airExchange\": 0.0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"setpoint\": {\n            \"temperature\": -18.0,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.0,\n            \"co2\": 15.0,\n            \"humidity\": 88.0,\n            \"airExchange\": 0.0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"geoLocation\": {\n            \"latitude\": \"48.85855\",\n            \"longitude\": \"2.29449203\"\n        },\n        \"equipmentReference\": \"APZU4812090\",\n        \"relatedDocumentReferences\": [\n            {\n                \"type\": \"SHI\",\n                \"value\": \"ABC123059\"\n            }\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -136,14 +138,15 @@
 							"response": []
 						},
 						{
-							"name": "Post Test Retracted Event (Unofficial)",
+							"name": "Post Test Event 3 (Retracted Event)",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
 											"const parsedBody = pm.response.json();",
-											"pm.collectionVariables.set(\"EVENT_ID_2\", parsedBody.eventID);",
+											"pm.collectionVariables.set(\"EVENT_ID_3\", parsedBody.eventID);",
+											"pm.collectionVariables.set(\"EVENT_3_POST_BODY\", pm.request.body.raw)",
 											""
 										],
 										"type": "text/javascript"
@@ -155,7 +158,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"metadata\":\n    {\n        \"eventCreatedDateTime\": \"2022-09-19T06:31:00+02:00\",\n        \"eventType\": \"REEFER\",\n        \"publisher\":\n        {\n            \"partyName\": \"Maersk\",\n            \"carrierCode\": \"MSK\",\n            \"carrierCodeListProvider\": \"SMDG\"\n        },\n        \"publisherRole\": \"CA\"\n    },\n    \"payload\":\n    {\n        \"eventClassifierCode\": \"ACT\",\n        \"eventDateTime\": \"2022-09-19T06:31:00+02:00\",\n        \"reeferEventTypeCode\": \"MEAS\",\n        \"measurements\":\n        {\n            \"ambientTemperature\": 22,\n            \"temperature\": -17.9,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.5,\n            \"co2\": 15.2,\n            \"humidity\": 88,\n            \"airExchange\": 0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"setpoint\":\n        {\n            \"temperature\": -18,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10,\n            \"co2\": 15,\n            \"humidity\": 88,\n            \"airExchange\": 0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"geoLocation\":\n        {\n            \"latitude\": \"48.85855\",\n            \"longitude\": \"2.29449203\"\n        },\n        \"equipmentReference\": \"MSKU9070323\",\n        \"relatedDocumentReferences\":\n        [\n            {\n                \"type\": \"BKG\",\n                \"value\": \"ABC123059\"\n            }\n        ]\n    }\n}\n",
+									"raw": "{\n    \"metadata\": {\n        \"eventType\": \"REEFER\",\n        \"eventCreatedDateTime\": \"2022-09-19T04:31:00Z\",\n        \"retractedEventID\": \"f6583a9a-7a23-465d-9693-fdb464205e73\",\n        \"publisher\": {\n            \"partyName\": \"Maersk\",\n            \"carrierCode\": \"MSK\",\n            \"carrierCodeListProvider\": \"SMDG\"\n        },\n        \"publisherRole\": \"CA\"\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -205,18 +208,28 @@
 					"name": "Positive test cases",
 					"item": [
 						{
-							"name": "Get all events",
+							"name": "Get Test Event 1",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"const jsonData = pm.response.json();",
+											"const postRequestBodyRaw = pm.collectionVariables.get(\"EVENT_1_POST_BODY\");",
 											"",
-											"pm.test('Body contains at least 2 items', () => {",
-											"    pm.expect(jsonData.length).to.above(1);",
+											"pm.test(\"Response matches post\", () => {",
+											"    const jsonData = pm.response.json();",
+											"    const postRequestBody = JSON.parse(postRequestBodyRaw);",
+											"",
+											"    postRequestBody.metadata.eventID = pm.collectionVariables.get(\"EVENT_ID_1\");",
+											"",
+											"    // For debugging:",
+											"    console.log(jsonData);",
+											"    console.log(postRequestBody);",
+											"    pm.expect(jsonData).to.eql(postRequestBody);",
 											"});",
 											"",
+											"pm.collectionVariables.unset(\"EVENT_ID_1\");",
+											"pm.collectionVariables.unset(\"EVENT_1_POST_BODY\");",
 											""
 										],
 										"type": "text/javascript"
@@ -227,19 +240,47 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events",
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events/{{EVENT_ID_1}}",
 									"host": [
 										"{{BASE_URL}}{{CONTEXT_PATH}}"
 									],
 									"path": [
-										"events"
+										"events",
+										"{{EVENT_ID_1}}"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Get Test Event 1",
+							"name": "Get Test Event 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const postRequestBodyRaw = pm.collectionVariables.get(\"EVENT_2_POST_BODY\");",
+											"",
+											"pm.test(\"Response matches post\", () => {",
+											"    const jsonData = pm.response.json();",
+											"    const postRequestBody = JSON.parse(postRequestBodyRaw);",
+											"",
+											"    postRequestBody.metadata.eventID = pm.collectionVariables.get(\"EVENT_ID_2\");",
+											"",
+											"    // For debugging:",
+											"    console.log(jsonData);",
+											"    console.log(postRequestBody);",
+											"    pm.expect(jsonData).to.eql(postRequestBody);",
+											"});",
+											"",
+											"pm.collectionVariables.unset(\"EVENT_ID_2\");",
+											"pm.collectionVariables.unset(\"EVENT_2_POST_BODY\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -257,18 +298,78 @@
 							"response": []
 						},
 						{
-							"name": "Get Test Event 2",
+							"name": "Get Test Event 3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const postRequestBodyRaw = pm.collectionVariables.get(\"EVENT_3_POST_BODY\");",
+											"",
+											"pm.test(\"Response matches post\", () => {",
+											"    const jsonData = pm.response.json();",
+											"    const postRequestBody = JSON.parse(postRequestBodyRaw);",
+											"",
+											"    postRequestBody.metadata.eventID = pm.collectionVariables.get(\"EVENT_ID_3\");",
+											"",
+											"    // For debugging:",
+											"    console.log(jsonData);",
+											"    console.log(postRequestBody);",
+											"    pm.expect(jsonData).to.eql(postRequestBody);",
+											"});",
+											"",
+											"pm.collectionVariables.unset(\"EVENT_ID_3\");",
+											"pm.collectionVariables.unset(\"EVENT_3_POST_BODY\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events/{{EVENT_ID_1}}",
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events/{{EVENT_ID_3}}",
 									"host": [
 										"{{BASE_URL}}{{CONTEXT_PATH}}"
 									],
 									"path": [
 										"events",
-										"{{EVENT_ID_1}}"
+										"{{EVENT_ID_3}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all events",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body contains at least 3 items', () => {",
+											"    pm.expect(jsonData.length).to.above(2);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
 									]
 								}
 							},
@@ -779,28 +880,131 @@
 			]
 		},
 		{
-			"name": "Clean up context",
-			"item": [],
-			"event": [
+			"name": "Subscriptions",
+			"item": [
 				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"pm.collectionVariables.unset(\"EVENT_ID_1\");",
-							"pm.collectionVariables.unset(\"EVENT_ID_2\");",
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
+					"name": "Create Update Delete Flow",
+					"item": [
+						{
+							"name": "Create subscription",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const parsedBody = pm.response.json();",
+											"",
+											"pm.collectionVariables.set(\"SUBSCRIPTION_ID\", parsedBody.subscriptionID);",
+											"pm.collectionVariables.set(\"SUBSCRIPTION_POST_BODY\", pm.request.body.raw)",
+											"",
+											"pm.test(\"Status code is 201\", () => {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"callbackUrl\": \"http://test.me/event-subscription-callback-url\",\n    \"equipmentReference\": \"APZU4812090\",\n    \"carrierBookingReference\": \"ABC123059\",\n    \"secret\": \"dmVyeSBzZWNyZXQgc2VjcmV0IHRoYXQgaXMgc28gc2VjcmV0\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"event-subscriptions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify subscription",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const postRequestBodyRaw = pm.collectionVariables.get(\"SUBSCRIPTION_POST_BODY\");",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response matches post\", () => {",
+											"    const jsonData = pm.response.json();",
+											"    const postRequestBody = JSON.parse(postRequestBodyRaw);",
+											"",
+											"    delete postRequestBody[\"secret\"];",
+											"    delete jsonData[\"subscriptionID\"];",
+											"    delete jsonData[\"subscriptionCreatedDateTime\"];",
+											"    delete jsonData[\"subscriptionUpdatedDateTime\"];",
+											"",
+											"    // For debugging:",
+											"    console.log(jsonData);",
+											"    console.log(postRequestBody);",
+											"    pm.expect(jsonData).to.eql(postRequestBody);",
+											"});",
+											"",
+											"pm.collectionVariables.unset(\"SUBSCRIPTION_ID\");",
+											"pm.collectionVariables.unset(\"SUBSCRIPTION_POST_BODY\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions/{{SUBSCRIPTION_ID}}",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"event-subscriptions",
+										"{{SUBSCRIPTION_ID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"API-Version header is set correctly\", () => {",
+									"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+									"});"
+								]
+							}
+						}
+					]
 				}
 			]
 		}
@@ -843,10 +1047,6 @@
 			"key": "SPEC_VERSION",
 			"value": "1.0.0",
 			"type": "default"
-		},
-		{
-			"key": "EVENT_ID_2",
-			"value": ""
 		}
 	]
 }

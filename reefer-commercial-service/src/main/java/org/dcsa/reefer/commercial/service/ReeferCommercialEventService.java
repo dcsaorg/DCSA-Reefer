@@ -21,10 +21,10 @@ public class ReeferCommercialEventService {
 
   @Transactional
   public ReeferCommercialEventTO findEvent(String eventID) {
-    return reeferCommercialEventMapper.toDTO(
-      reeferCommercialEventRepository.findById(eventID)
+    return reeferCommercialEventRepository.findById(eventID)
         .map(ReeferCommercialEvent::getContent)
-        .orElseThrow(() -> ConcreteRequestErrorMessageException.notFound("No reefer-commercial events found for id = " + eventID)));
+        .map(reeferCommercialEventMapper::toDTO)
+        .orElseThrow(() -> ConcreteRequestErrorMessageException.notFound("No reefer-commercial events found for id = " + eventID));
   }
 
   @Transactional

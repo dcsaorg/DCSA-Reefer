@@ -5,11 +5,6 @@ DCSA-Reefer-Commercial
 Setup a Github Personal Access Token as mentioned [here](https://github.com/dcsaorg/DCSA-Core/blob/master/README.md#how-to-use-dcsa-core-packages).
 
 
-## Cloning
-
-Clone **DCSA-Reefer-Commercial** (with ``--recurse-submodules`` option).
-
-
 ## Build and run using using docker-compose
 
 1) Build and run with
