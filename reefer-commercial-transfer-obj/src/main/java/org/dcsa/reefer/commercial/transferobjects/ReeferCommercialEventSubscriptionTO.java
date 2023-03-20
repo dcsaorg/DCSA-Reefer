@@ -1,29 +1,33 @@
 package org.dcsa.reefer.commercial.transferobjects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.SuperBuilder;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Builder;
+import org.dcsa.skernel.infrastructure.validation.ISO6346EquipmentReference;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder(toBuilder = true)
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
-public class ReeferCommercialEventSubscriptionTO extends ReeferCommercialEventSubscriptionUpdateRequestTO {
+public record ReeferCommercialEventSubscriptionTO(
   @JsonProperty("subscriptionID")
-  private UUID id;
+  UUID id,
+
+  @NotBlank
+  String callbackUrl,
+
+  @ISO6346EquipmentReference
+  String equipmentReference,
+
+  @Size(max = 35)
+  String carrierBookingReference,
 
   @JsonProperty("subscriptionCreatedDateTime")
-  private OffsetDateTime createdDateTime;
+  OffsetDateTime createdDateTime,
 
   @JsonProperty("subscriptionUpdatedDateTime")
-  private OffsetDateTime updatedDateTime;
+  OffsetDateTime updatedDateTime
+) {
+  @Builder(toBuilder = true)
+  public ReeferCommercialEventSubscriptionTO { }
 }

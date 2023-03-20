@@ -48,7 +48,7 @@
 			]
 		},
 		{
-			"name": "GET Events",
+			"name": "Events",
 			"item": [
 				{
 					"name": "Insert Test Data (Unofficial)",
@@ -897,6 +897,10 @@
 											"pm.collectionVariables.set(\"SUBSCRIPTION_ID\", parsedBody.subscriptionID);",
 											"pm.collectionVariables.set(\"SUBSCRIPTION_POST_BODY\", pm.request.body.raw)",
 											"",
+											"pm.test(\"API-Version header is set correctly\", () => {",
+											"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+											"});",
+											"",
 											"pm.test(\"Status code is 201\", () => {",
 											"    pm.response.to.have.status(201);",
 											"});",
@@ -931,6 +935,49 @@
 							"response": []
 						},
 						{
+							"name": "Get all subscriptions",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const postRequestBodyRaw = pm.collectionVariables.get(\"SUBSCRIPTION_POST_BODY\");",
+											"",
+											"pm.test(\"API-Version header is set correctly\", () => {",
+											"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+											"});",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Body contains at least 1 item', () => {",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData.length).to.above(0);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"event-subscriptions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Verify subscription",
 							"event": [
 								{
@@ -938,6 +985,10 @@
 									"script": {
 										"exec": [
 											"const postRequestBodyRaw = pm.collectionVariables.get(\"SUBSCRIPTION_POST_BODY\");",
+											"",
+											"pm.test(\"API-Version header is set correctly\", () => {",
+											"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+											"});",
 											"",
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -956,6 +1007,312 @@
 											"    console.log(jsonData);",
 											"    console.log(postRequestBody);",
 											"    pm.expect(jsonData).to.eql(postRequestBody);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions/{{SUBSCRIPTION_ID}}",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"event-subscriptions",
+										"{{SUBSCRIPTION_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify subscription secret",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const postRequestBodyRaw = pm.collectionVariables.get(\"SUBSCRIPTION_POST_BODY\");",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response secret matches post\", () => {",
+											"    const jsonData = pm.response.json();",
+											"    const postRequestBody = JSON.parse(postRequestBodyRaw);",
+											"",
+											"    pm.expect(jsonData.secret).to.eql(postRequestBody.secret);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/event-subscriptions/{{SUBSCRIPTION_ID}}/secret",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"unofficial",
+										"event-subscriptions",
+										"{{SUBSCRIPTION_ID}}",
+										"secret"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update subscription",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const parsedBody = pm.response.json();",
+											"",
+											"pm.collectionVariables.set(\"SUBSCRIPTION_POST_BODY\", pm.request.body.raw)",
+											"",
+											"pm.test(\"API-Version header is set correctly\", () => {",
+											"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+											"});",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"subscriptionID\": \"{{SUBSCRIPTION_ID}}\",\n    \"callbackUrl\": \"http://test.me/event-subscription-callback-url-different\",\n    \"equipmentReference\": \"MSKU9070323\",\n    \"carrierBookingReference\": \"CBA123059\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions/{{SUBSCRIPTION_ID}}",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"event-subscriptions",
+										"{{SUBSCRIPTION_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify subscription after update",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const postRequestBodyRaw = pm.collectionVariables.get(\"SUBSCRIPTION_POST_BODY\");",
+											"",
+											"pm.test(\"API-Version header is set correctly\", () => {",
+											"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+											"});",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response matches post\", () => {",
+											"    const jsonData = pm.response.json();",
+											"    const postRequestBody = JSON.parse(postRequestBodyRaw);",
+											"",
+											"    delete jsonData[\"subscriptionCreatedDateTime\"];",
+											"    delete jsonData[\"subscriptionUpdatedDateTime\"];",
+											"",
+											"    // For debugging:",
+											"    console.log(jsonData);",
+											"    console.log(postRequestBody);",
+											"    pm.expect(jsonData).to.eql(postRequestBody);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions/{{SUBSCRIPTION_ID}}",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"event-subscriptions",
+										"{{SUBSCRIPTION_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update subscription secret",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"SUBSCRIPTION_POST_BODY\", pm.request.body.raw)",
+											"",
+											"pm.test(\"API-Version header is set correctly\", () => {",
+											"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+											"});",
+											"",
+											"pm.test(\"Status code is 204\", () => {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"secret\": \"YW5vdGhlciBzZWNyZXQgLSBub3QgdGhlIHNhbWUgYXMgYmVmb3Jl\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions/{{SUBSCRIPTION_ID}}/secret",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"event-subscriptions",
+										"{{SUBSCRIPTION_ID}}",
+										"secret"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify subscription secret after update",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const postRequestBodyRaw = pm.collectionVariables.get(\"SUBSCRIPTION_POST_BODY\");",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response secret matches post\", () => {",
+											"    const jsonData = pm.response.json();",
+											"    const postRequestBody = JSON.parse(postRequestBodyRaw);",
+											"",
+											"    pm.expect(jsonData.secret).to.eql(postRequestBody.secret);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/event-subscriptions/{{SUBSCRIPTION_ID}}/secret",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"unofficial",
+										"event-subscriptions",
+										"{{SUBSCRIPTION_ID}}",
+										"secret"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete subscription",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"API-Version header is set correctly\", () => {",
+											"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+											"});",
+											"",
+											"pm.test(\"Status code is 204\", () => {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions/{{SUBSCRIPTION_ID}}",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"event-subscriptions",
+										"{{SUBSCRIPTION_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify subscription deleted",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"API-Version header is set correctly\", () => {",
+											"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+											"});",
+											"",
+											"pm.test(\"Status code is 404\", () => {",
+											"    pm.response.to.have.status(404);",
 											"});",
 											"",
 											"pm.collectionVariables.unset(\"SUBSCRIPTION_ID\");",
@@ -998,9 +1355,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"pm.test(\"API-Version header is set correctly\", () => {",
-									"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
-									"});"
+									""
 								]
 							}
 						}

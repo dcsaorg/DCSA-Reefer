@@ -10,6 +10,7 @@ import org.dcsa.reefer.commercial.transferobjects.ReeferCommercialEventSubscript
 import org.dcsa.reefer.commercial.transferobjects.ReeferCommercialEventSubscriptionUpdateSecretRequestTO;
 import org.dcsa.skernel.errors.exceptions.ConcreteRequestErrorMessageException;
 import org.dcsa.skernel.infrastructure.pagination.PagedResult;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -41,11 +42,15 @@ public class ReeferCommercialEventSubscriptionService {
 
   @Transactional
   public ReeferCommercialEventSubscriptionTO updateSubscription(UUID subscriptionID, ReeferCommercialEventSubscriptionUpdateRequestTO request) {
+    if (!subscriptionID.equals(request.id())) {
+      throw ConcreteRequestErrorMessageException.invalidInput("subscriptionIDs must match");
+    }
+
     return repository.findById(subscriptionID)
       .map(subscription -> subscription.toBuilder()
-        .callbackUrl(request.getCallbackUrl())
-        .equipmentReference(request.getEquipmentReference())
-        .carrierBookingReference(request.getCarrierBookingReference())
+        .callbackUrl(request.callbackUrl())
+        .equipmentReference(request.equipmentReference())
+        .carrierBookingReference(request.carrierBookingReference())
         .updatedDateTime(OffsetDateTime.now())
         .build())
       .map(repository::save)
@@ -57,7 +62,7 @@ public class ReeferCommercialEventSubscriptionService {
   public void updateSubscriptionSecret(UUID subscriptionID, ReeferCommercialEventSubscriptionUpdateSecretRequestTO request) {
     repository.findById(subscriptionID)
       .map(subscription -> subscription.toBuilder()
-        .secret(request.getSecret())
+        .secret(request.secret())
         .updatedDateTime(OffsetDateTime.now())
         .build())
       .map(repository::save)
@@ -66,6 +71,7 @@ public class ReeferCommercialEventSubscriptionService {
 
   @Transactional
   public void deleteSubscription(UUID subscriptionID) {
-    repository.deleteById(subscriptionID);
+    // avoid exception in case it does not exist
+    repository.findById(subscriptionID).ifPresent(repository::delete);
   }
 }

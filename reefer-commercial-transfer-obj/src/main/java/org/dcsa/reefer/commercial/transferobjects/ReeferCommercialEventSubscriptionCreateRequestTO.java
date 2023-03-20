@@ -1,23 +1,29 @@
 package org.dcsa.reefer.commercial.transferobjects;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
 import lombok.ToString;
-import lombok.experimental.SuperBuilder;
+import org.dcsa.skernel.infrastructure.validation.AtLeast;
+import org.dcsa.skernel.infrastructure.validation.ISO6346EquipmentReference;
 
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder(toBuilder = true)
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
-public class ReeferCommercialEventSubscriptionCreateRequestTO extends ReeferCommercialEventSubscriptionUpdateRequestTO {
+@AtLeast(nonNullsRequired = 1, fields = {"equipmentReference", "carrierBookingReference"})
+public record ReeferCommercialEventSubscriptionCreateRequestTO(
+  @NotBlank
+  String callbackUrl,
+
+  @ISO6346EquipmentReference
+  String equipmentReference,
+
+  @Size(max = 35)
+  String carrierBookingReference,
+
   @NotNull
   @Size(min = ReeferCommercialEventSubscriptionUpdateSecretRequestTO.MIN_SECRET_SIZE, max = ReeferCommercialEventSubscriptionUpdateSecretRequestTO.MAX_SECRET_SIZE)
   @ToString.Exclude
-  private byte[] secret;
+  byte[] secret
+) {
+  @Builder(toBuilder = true)
+  public ReeferCommercialEventSubscriptionCreateRequestTO { }
 }

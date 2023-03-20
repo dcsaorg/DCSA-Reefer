@@ -1,30 +1,31 @@
 package org.dcsa.reefer.commercial.transferobjects;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.SuperBuilder;
+import lombok.Builder;
 import org.dcsa.skernel.infrastructure.validation.AtLeast;
 import org.dcsa.skernel.infrastructure.validation.ISO6346EquipmentReference;
 
-@Getter
-@ToString
-@EqualsAndHashCode
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder(toBuilder = true)
+import java.util.UUID;
+
 @AtLeast(nonNullsRequired = 1, fields = {"equipmentReference", "carrierBookingReference"})
-public class ReeferCommercialEventSubscriptionUpdateRequestTO {
+public record ReeferCommercialEventSubscriptionUpdateRequestTO(
+  /* redundant, but it's in the spec */
+  @NotNull
+  @JsonProperty("subscriptionID")
+  UUID id,
+
   @NotBlank
-  private String callbackUrl;
+  String callbackUrl,
 
   @ISO6346EquipmentReference
-  private String equipmentReference;
+  String equipmentReference,
 
   @Size(max = 35)
-  private String carrierBookingReference;
+  String carrierBookingReference
+) {
+  @Builder(toBuilder = true)
+  public ReeferCommercialEventSubscriptionUpdateRequestTO { }
 }
