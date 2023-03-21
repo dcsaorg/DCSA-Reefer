@@ -10,7 +10,6 @@ import org.dcsa.reefer.commercial.transferobjects.ReeferCommercialEventSubscript
 import org.dcsa.reefer.commercial.transferobjects.ReeferCommercialEventSubscriptionUpdateSecretRequestTO;
 import org.dcsa.skernel.errors.exceptions.ConcreteRequestErrorMessageException;
 import org.dcsa.skernel.infrastructure.pagination.PagedResult;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -71,7 +70,6 @@ public class ReeferCommercialEventSubscriptionService {
 
   @Transactional
   public void deleteSubscription(UUID subscriptionID) {
-    // avoid exception in case it does not exist
-    repository.findById(subscriptionID).ifPresent(repository::delete);
+    repository.deleteById(subscriptionID);
   }
 }
