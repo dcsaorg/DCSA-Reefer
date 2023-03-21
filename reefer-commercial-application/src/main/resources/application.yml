@@ -5,10 +5,15 @@ dcsa:
       - prefix: /reefer-commercial/v1
         version: 1.0.0
   reefer-commercial:
-    cache:
-      delay: 60000
-      initial-delay: 2000
-      max-queue-results: 100
+    match:
+      initial-delay: 5
+      fixed-delay: 10
+    delivery:
+      initial-delay: 5
+      fixed-delay: 10
+      max-delivery-attempts: 10
+      backoff-initial-delay: 120
+      backoff-multiplier: 3
 
 spring:
   application:

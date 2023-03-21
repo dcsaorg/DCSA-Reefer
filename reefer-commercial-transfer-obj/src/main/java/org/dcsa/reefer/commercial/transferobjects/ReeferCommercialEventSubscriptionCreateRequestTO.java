@@ -5,10 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.ToString;
-import org.dcsa.skernel.infrastructure.validation.AtLeast;
 import org.dcsa.skernel.infrastructure.validation.ISO6346EquipmentReference;
 
-@AtLeast(nonNullsRequired = 1, fields = {"equipmentReference", "carrierBookingReference"})
 public record ReeferCommercialEventSubscriptionCreateRequestTO(
   @NotBlank
   String callbackUrl,

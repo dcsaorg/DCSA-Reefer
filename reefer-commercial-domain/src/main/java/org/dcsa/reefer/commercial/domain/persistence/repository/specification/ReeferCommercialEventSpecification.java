@@ -30,6 +30,8 @@ import static org.dcsa.reefer.commercial.domain.valueobjects.enums.DocumentRefer
 @UtilityClass
 public class ReeferCommercialEventSpecification {
 
+  public static final Set<DocumentReferenceType> CARRIER_BOOKING_REF_TYPES = Set.of(BKG, CBR);
+
   public record ReeferCommercialEventFilters(
     List<ParsedQueryParameter<OffsetDateTime>> eventCreatedDateTime,
     List<ParsedQueryParameter<OffsetDateTime>> eventDateTime,
@@ -69,7 +71,7 @@ public class ReeferCommercialEventSpecification {
         predicates.add(root.get(ReeferCommercialEvent_.REEFER_EVENT_TYPE_CODE).in(filters.reeferEventTypeCodes.stream().map(Enum::name).toList()));
       }
 
-      handleDocumentReference(root, query, builder, predicates, Set.of(BKG, CBR), filters.carrierBookingReference);
+      handleDocumentReference(root, query, builder, predicates, CARRIER_BOOKING_REF_TYPES, filters.carrierBookingReference);
 
       return builder.and(predicates.toArray(Predicate[]::new));
     };
