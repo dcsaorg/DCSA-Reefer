@@ -1,6 +1,7 @@
 
 dcsa:
   specification:
+    version: 1.0.0
     by-prefix:
       - prefix: /reefer-commercial/v1
         version: 1.0.0
@@ -9,7 +10,7 @@ dcsa:
       initial-delay: 5
       fixed-delay: 10
     delivery:
-      initial-delay: 5
+      initial-delay: 7
       fixed-delay: 10
       max-delivery-attempts: 10
       backoff-initial-delay: 120

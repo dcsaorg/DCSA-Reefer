@@ -3,7 +3,6 @@ package org.dcsa.reefer.commercial.domain.persistence.entity;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -13,7 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.dcsa.reefer.commercial.domain.valueobjects.enums.ReeferEventTypeCode;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.Type;
 

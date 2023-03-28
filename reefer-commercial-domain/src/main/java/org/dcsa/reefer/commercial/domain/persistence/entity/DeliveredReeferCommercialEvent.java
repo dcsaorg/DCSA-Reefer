@@ -37,8 +37,8 @@ public class DeliveredReeferCommercialEvent {
   @Column(name = "callback_url", nullable = false)
   private String callbackUrl;
 
-  @Column(name = "last_delivery_attempt", nullable = false)
-  private OffsetDateTime lastDeliveryAttemptTime;
+  @Column(name = "delivery_time", nullable = false)
+  private OffsetDateTime deliveryTime;
 
   @Column(name = "delivery_attempts", nullable = false)
   private Integer deliveryAttempts;

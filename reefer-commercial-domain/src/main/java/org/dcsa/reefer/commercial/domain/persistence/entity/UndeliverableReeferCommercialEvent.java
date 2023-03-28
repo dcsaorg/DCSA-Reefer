@@ -34,7 +34,7 @@ public class UndeliverableReeferCommercialEvent {
   @Column(name = "subscription_id", nullable = false)
   private UUID subscriptionId;
 
-  @Column(name = "callback_url", nullable = false)
+  @Column(name = "callback_url")
   private String callbackUrl;
 
   @Column(name = "last_delivery_attempt", nullable = false)
