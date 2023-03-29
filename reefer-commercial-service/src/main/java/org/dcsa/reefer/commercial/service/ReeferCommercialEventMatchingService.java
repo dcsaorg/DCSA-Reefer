@@ -10,6 +10,8 @@ import org.dcsa.reefer.commercial.domain.persistence.repository.ReeferCommercial
 import org.dcsa.reefer.commercial.domain.persistence.repository.ReeferCommercialEventSubscriptionRepository;
 import org.dcsa.reefer.commercial.domain.persistence.repository.UnmatchedReeferCommercialEventRepository;
 import org.dcsa.reefer.commercial.domain.persistence.repository.specification.ReeferCommercialEventSubscriptionSpecification;
+import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
@@ -18,6 +20,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -31,6 +34,8 @@ public class ReeferCommercialEventMatchingService {
   private final OutgoingReeferCommercialEventRepository outgoingRepository;
   private final TransactionTemplate transactionTemplate;
 
+  private final AtomicBoolean keepRunning = new AtomicBoolean(true);
+
   @Scheduled(
     initialDelayString = "${dcsa.reefer-commercial.match.initial-delay:5}",
     fixedDelayString = "${dcsa.reefer-commercial.match.fixed-delay:10}",
@@ -38,7 +43,12 @@ public class ReeferCommercialEventMatchingService {
   )
   public void matchEventsScheduled() {
     // Continue until all has been processed
-    while (Boolean.TRUE.equals(transactionTemplate.execute(this::matchEvents)));
+    while (keepRunning.get() && Boolean.TRUE.equals(transactionTemplate.execute(this::matchEvents)));
+  }
+
+  @EventListener(ContextClosedEvent.class)
+  public void beforeShutdown() {
+    keepRunning.set(false);
   }
 
   private Boolean matchEvents(TransactionStatus transactionStatus) {
@@ -51,7 +61,7 @@ public class ReeferCommercialEventMatchingService {
 
         List<ReeferCommercialEventSubscription> subscriptions =
           subscriptionRepository.findAll(ReeferCommercialEventSubscriptionSpecification.matchesEvent(event));
-        log.debug("ReeferCommercialEvent {} matched to subscriptions {}", event.getEventId(), subscriptions);
+        log.debug("ReeferCommercialEvent {} matched to {} subscriptions", event.getEventId(), subscriptions.size());
 
         outgoingRepository.saveAll(
           subscriptions.stream()

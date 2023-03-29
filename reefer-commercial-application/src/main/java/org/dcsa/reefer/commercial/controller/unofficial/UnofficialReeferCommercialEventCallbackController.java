@@ -29,14 +29,14 @@ public class UnofficialReeferCommercialEventCallbackController {
   @PostMapping(path = "/callback/events/")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void receiveCallbackEvents(@Valid @RequestBody List<ReeferCommercialEventTO> eventTOs, HttpServletRequest request) {
-    log.info("-- Incoming event");
+    log.trace("-- Incoming event");
     for (Enumeration<String> headerNames = request.getHeaderNames(); headerNames.hasMoreElements();) {
       String headerName = headerNames.nextElement();
       for (Enumeration<String> headerValues = request.getHeaders(headerName); headerValues.hasMoreElements();) {
-        log.info("Header - {}: {}", headerName, headerValues.nextElement());
+        log.trace("Header - {}: {}", headerName, headerValues.nextElement());
       }
     }
-    log.info("Received {}", eventTOs);
-    log.info("-- end");
+    log.trace("Received {}", eventTOs);
+    log.trace("-- end");
   }
 }
