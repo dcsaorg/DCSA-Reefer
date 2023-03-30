@@ -96,7 +96,7 @@ public class ReeferCommercialEventDeliveryService {
   }
 
   @Scheduled(
-    initialDelayString = "${dcsa.reefer-commercial.delivery.initial-delay:7}",
+    initialDelayString = "${dcsa.reefer-commercial.delivery.initial-delay:5}",
     fixedDelayString = "${dcsa.reefer-commercial.delivery.fixed-delay:10}",
     timeUnit = TimeUnit.SECONDS
   )
@@ -107,13 +107,21 @@ public class ReeferCommercialEventDeliveryService {
       long eligible = outgoingRepository.countEligible();
       int additionalTasksNeeded = (int) Math.min(maxThreads, eligible) - currentTasks;
       if (additionalTasksNeeded > 0) {
-        log.debug("Spawning {} tasks ({}/{}) to handle {} outgoing messages", additionalTasksNeeded, currentTasks, maxThreads, eligible);
+        log.trace("Spawning {} tasks ({}/{}) to handle {} outgoing messages", additionalTasksNeeded, currentTasks, maxThreads, eligible);
         activeTasks.addAndGet(additionalTasksNeeded);
         for (int i = 0; i < additionalTasksNeeded; i++) {
           executor.submit(this::deliverEvents);
         }
       }
     }
+  }
+
+  /**
+   * For testing purposes.
+   */
+  public void deliverBlocking() {
+    activeTasks.incrementAndGet();
+    deliverEvents();
   }
 
   @EventListener(ContextClosedEvent.class)
@@ -128,7 +136,7 @@ public class ReeferCommercialEventDeliveryService {
       while (keepRunning.get() && Boolean.TRUE.equals(transactionTemplate.execute(this::deliverEvent)));
     } finally {
       if (activeTasks.decrementAndGet() == 0) {
-        log.debug("Last task exited");
+        log.trace("Last task exited");
       }
     }
   }
@@ -136,7 +144,6 @@ public class ReeferCommercialEventDeliveryService {
   private boolean deliverEvent(TransactionStatus transactionStatus) {
     Optional<OutgoingReeferCommercialEvent> eventOpt = outgoingRepository.findNext();
     eventOpt.ifPresent(outEvent -> {
-      log.debug("outgoing {}", outEvent);
       ReeferCommercialEventSubscription subscription = null;
       ReeferCommercialEvent event;
       try {
@@ -149,10 +156,14 @@ public class ReeferCommercialEventDeliveryService {
             .map(org.dcsa.reefer.commercial.domain.persistence.entity.ReeferCommercialEvent::getContent)
             .orElseThrow(() -> new UnrecoverableEventDeliveryException("Unknown event " + outEvent.getEventId()));
 
+        log.debug("Outgoing event '{}' to '{}={}' - {} previous attempts", event.getEventID(), subscription.getId(), subscription.getCallbackUrl(), outEvent.getDeliveryAttempts());
+
         Response response = restTemplate.execute(subscription.getCallbackUrl(), HttpMethod.POST, addPostContent(subscription, event), this::extractResponse);
         if (!response.status().is2xxSuccessful()) {
           throw new EventDeliveryException("Callback returned " + response.status + ": " + response.content());
         }
+
+        log.debug("Delivered event '{}' to '{}={}'", event.getEventID(), subscription.getId(), subscription.getCallbackUrl());
 
         deliveredRepository.save(DeliveredReeferCommercialEvent.builder()
           .id(outEvent.getId())
@@ -165,9 +176,9 @@ public class ReeferCommercialEventDeliveryService {
         outgoingRepository.delete(outEvent);
       } catch (UnrecoverableEventDeliveryException e) {
         if (subscription != null) {
-          log.warn("Unable to deliver event '{}' to '{}={}' after {} attempts: {}", outEvent.getEventId(), subscription.getId(), subscription.getCallbackUrl(), outEvent.getDeliveryAttempts(), e.getMessage(), e);
+          log.warn("Unable to deliver event '{}' to '{}={}' after {} attempts: {}", outEvent.getEventId(), subscription.getId(), subscription.getCallbackUrl(), outEvent.getDeliveryAttempts() + 1, e.getMessage(), e);
         } else {
-          log.warn("Unable to deliver event '{}' to {} after {} attempts: {}", outEvent.getEventId(), outEvent.getSubscriptionId(), outEvent.getDeliveryAttempts(), e.getMessage(), e);
+          log.warn("Unable to deliver event '{}' to {} after {} attempts: {}", outEvent.getEventId(), outEvent.getSubscriptionId(), outEvent.getDeliveryAttempts() + 1, e.getMessage(), e);
         }
         deadRepository.save(UndeliverableReeferCommercialEvent.builder()
           .id(outEvent.getId())
@@ -181,7 +192,7 @@ public class ReeferCommercialEventDeliveryService {
         outgoingRepository.delete(outEvent);
       } catch (Exception e) {
         if (outEvent.getDeliveryAttempts() >= backoffDelays.length) {
-          log.warn("Unable to deliver event '{}' to '{}={}' after {} attempts: {}", outEvent.getEventId(), subscription.getId(), subscription.getCallbackUrl(), outEvent.getDeliveryAttempts(), e.getMessage(), e);
+          log.warn("Unable to deliver event '{}' to '{}={}' after {} attempts: {}", outEvent.getEventId(), subscription.getId(), subscription.getCallbackUrl(), outEvent.getDeliveryAttempts() + 1, e.getMessage(), e);
           deadRepository.save(UndeliverableReeferCommercialEvent.builder()
             .id(outEvent.getId())
             .eventId(outEvent.getEventId())

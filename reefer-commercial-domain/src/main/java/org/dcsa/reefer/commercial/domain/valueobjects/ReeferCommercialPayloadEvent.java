@@ -33,7 +33,7 @@ final public class ReeferCommercialPayloadEvent extends ReeferCommercialEvent {
   private Measurements measurements;
 
   @Valid
-  private Setpoint setpoint;
+  private Setpoint setpoints;
 
   @Valid
   private GeoLocation geoLocation;

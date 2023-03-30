@@ -8,6 +8,7 @@ import org.dcsa.reefer.commercial.domain.persistence.repository.ReeferCommercial
 import org.dcsa.reefer.commercial.domain.valueobjects.DocumentReference;
 import org.dcsa.reefer.commercial.domain.valueobjects.ReeferCommercialEvent;
 import org.dcsa.reefer.commercial.domain.valueobjects.ReeferCommercialPayloadEvent;
+import org.dcsa.reefer.commercial.service.ReeferCommercialEventMatchingService;
 import org.dcsa.reefer.commercial.transferobjects.EventMetadataTO;
 import org.dcsa.reefer.commercial.transferobjects.ReeferCommercialEventPayloadTO;
 import org.dcsa.reefer.commercial.transferobjects.ReeferCommercialEventTO;
@@ -26,6 +27,7 @@ public class UnofficialReeferCommercialEventService {
   private final ReeferCommercialEventRepository eventRepository;
   private final ReeferCommercialEventDocumentReferenceRepository documentReferenceRepository;
   private final UnofficialReeferCommercialEventMapper reeferCommercialEventMapper;
+  private final ReeferCommercialEventMatchingService matchingService;
 
   @Transactional
   public ReeferCommercialEventStatusTO saveReeferCommercialEvent(ReeferCommercialEventTO eventTO) {
@@ -50,7 +52,7 @@ public class UnofficialReeferCommercialEventService {
       .build();
 
     ReeferCommercialEvent domainEvent = reeferCommercialEventMapper.toDomain(updated);
-    eventRepository.save(toEntity(domainEvent));
+    var savedEvent = eventRepository.save(toEntity(domainEvent));
 
     if (domainEvent instanceof ReeferCommercialPayloadEvent payloadEvent) {
       Set<DocumentReference> relatedDocumentReferences = payloadEvent.getRelatedDocumentReferences();
@@ -67,15 +69,26 @@ public class UnofficialReeferCommercialEventService {
       }
     }
 
+    eventRepository.flush();
+    matchingService.matchEvent(savedEvent);
+
     return new ReeferCommercialEventStatusTO(domainEvent.getEventID());
   }
 
   private org.dcsa.reefer.commercial.domain.persistence.entity.ReeferCommercialEvent toEntity(ReeferCommercialEvent domainEvent) {
-    return org.dcsa.reefer.commercial.domain.persistence.entity.ReeferCommercialEvent.builder()
+    var builder = org.dcsa.reefer.commercial.domain.persistence.entity.ReeferCommercialEvent.builder()
       .eventId(domainEvent.getEventID())
       .content(domainEvent)
-      .eventCreatedDateTime(domainEvent.getEventCreatedDateTime())
-      .eventDateTime(domainEvent instanceof ReeferCommercialPayloadEvent payloadEvent ? payloadEvent.getEventDateTime() : null)
-      .build();
+      .eventCreatedDateTime(domainEvent.getEventCreatedDateTime());
+
+    if (domainEvent instanceof ReeferCommercialPayloadEvent payloadEvent) {
+      builder
+        .eventDateTime(payloadEvent.getEventDateTime())
+        .equipmentReference(payloadEvent.getEquipmentReference())
+        .reeferEventTypeCode(payloadEvent.getReeferEventTypeCode() != null ? payloadEvent.getReeferEventTypeCode().name() : null)
+      ;
+    }
+
+    return builder.build();
   }
 }

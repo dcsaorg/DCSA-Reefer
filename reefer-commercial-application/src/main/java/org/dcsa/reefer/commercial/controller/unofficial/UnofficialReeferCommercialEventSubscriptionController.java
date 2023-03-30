@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
-@Profile("test")
+@Profile({"dev","test"})
 @Validated
 @RestController
 @RequestMapping("${spring.application.context-path}/unofficial")

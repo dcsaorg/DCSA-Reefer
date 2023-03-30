@@ -23,7 +23,7 @@ public record ReeferCommercialEventPayloadTO(
   MeasurementsTO measurements,
 
   @Valid
-  SetpointTO setpoint,
+  SetpointTO setpoints,
 
   @Valid
   GeoLocationTO geoLocation,
