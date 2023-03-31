@@ -1,4 +1,4 @@
-package org.dcsa.reefer.commercial.domain.persistence.entity;
+package org.dcsa.reefer.commercial.delivery.persistence.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,8 +22,8 @@ import java.util.UUID;
 @Getter
 @Setter(AccessLevel.PRIVATE)
 @Entity
-@Table(name = "delivered_reefer_commercial_event")
-public class DeliveredReeferCommercialEvent {
+@Table(name = "undeliverable_event_message")
+public class UndeliverableEventMessage {
   @Id
   @Column(name = "id", nullable = false)
   private UUID id;
@@ -34,12 +34,15 @@ public class DeliveredReeferCommercialEvent {
   @Column(name = "subscription_id", nullable = false)
   private UUID subscriptionId;
 
-  @Column(name = "callback_url", nullable = false)
+  @Column(name = "callback_url")
   private String callbackUrl;
 
-  @Column(name = "delivery_time", nullable = false)
-  private OffsetDateTime deliveryTime;
+  @Column(name = "last_delivery_attempt", nullable = false)
+  private OffsetDateTime lastDeliveryAttemptTime;
 
   @Column(name = "delivery_attempts", nullable = false)
   private Integer deliveryAttempts;
+
+  @Column(name = "error_details", nullable = false)
+  private String errorDetails;
 }

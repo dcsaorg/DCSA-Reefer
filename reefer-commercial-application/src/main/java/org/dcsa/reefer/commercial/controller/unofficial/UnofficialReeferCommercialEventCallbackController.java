@@ -5,7 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dcsa.reefer.commercial.service.ReeferCommercialEventDeliveryService;
+import org.dcsa.reefer.commercial.delivery.service.EventDeliveryService;
 import org.dcsa.reefer.commercial.transferobjects.ReeferCommercialEventTO;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 @RequestMapping("${spring.application.context-path}/unofficial")
 @RequiredArgsConstructor
 public class UnofficialReeferCommercialEventCallbackController {
-  private final ReeferCommercialEventDeliveryService deliveryService;
+  private final EventDeliveryService deliveryService;
   private final Map<String, Set<String>> receivedEvents = new HashMap<>();
 
   @PostMapping(path = "/callback/deliver-events/")

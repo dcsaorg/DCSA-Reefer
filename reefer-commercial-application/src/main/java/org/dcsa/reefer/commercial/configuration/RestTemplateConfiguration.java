@@ -11,14 +11,14 @@ import java.time.Duration;
 @Configuration
 public class RestTemplateConfiguration {
 
-  @Value("${dcsa.reefer-commercial.delivery.connect-timeout:10}")
+  @Value("${dcsa.rest.connect-timeout:10}")
   private Integer connectTimeout;
 
-  @Value("${dcsa.reefer-commercial.delivery.read-timeout:10}")
+  @Value("${dcsa.rest.read-timeout:10}")
   private Integer readTimeout;
 
-  @Bean("eventDeliveryRestTemplate")
-  public RestTemplate eventDeliveryRestTemplate(RestTemplateBuilder builder) {
+  @Bean
+  public RestTemplate restTemplate(RestTemplateBuilder builder) {
     return builder
       .setConnectTimeout(Duration.ofSeconds(connectTimeout))
       .setReadTimeout(Duration.ofSeconds(readTimeout))

@@ -1,7 +1,8 @@
-package org.dcsa.reefer.commercial.domain.persistence.entity;
+package org.dcsa.reefer.commercial.delivery.persistence.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -22,9 +23,10 @@ import java.util.UUID;
 @Getter
 @Setter(AccessLevel.PRIVATE)
 @Entity
-@Table(name = "undeliverable_reefer_commercial_event")
-public class UndeliverableReeferCommercialEvent {
+@Table(name = "outgoing_event_message")
+public class OutgoingEventMessage {
   @Id
+  @GeneratedValue
   @Column(name = "id", nullable = false)
   private UUID id;
 
@@ -34,15 +36,21 @@ public class UndeliverableReeferCommercialEvent {
   @Column(name = "subscription_id", nullable = false)
   private UUID subscriptionId;
 
-  @Column(name = "callback_url")
-  private String callbackUrl;
-
-  @Column(name = "last_delivery_attempt", nullable = false)
-  private OffsetDateTime lastDeliveryAttemptTime;
+  @Column(name = "next_delivery_attempt", nullable = false)
+  private OffsetDateTime nextDeliveryAttemptTime;
 
   @Column(name = "delivery_attempts", nullable = false)
   private Integer deliveryAttempts;
 
-  @Column(name = "error_details", nullable = false)
-  private String errorDetails;
+  /**
+   * For convenience.
+   */
+  public static OutgoingEventMessage of(UUID subscriptionId, String eventId) {
+    return OutgoingEventMessage.builder()
+      .subscriptionId(subscriptionId)
+      .eventId(eventId)
+      .deliveryAttempts(0)
+      .nextDeliveryAttemptTime(OffsetDateTime.now())
+      .build();
+  }
 }

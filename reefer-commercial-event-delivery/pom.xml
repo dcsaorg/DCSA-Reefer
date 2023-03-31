@@ -8,43 +8,38 @@
 		<version>${revision}${sha1}${changelist}</version>
 	</parent>
 
-	<name>DCSA Reefer Commercial - Service</name>
+	<name>DCSA Reefer Commercial - Event Delivery</name>
 	<groupId>org.dcsa.reefer.commercial</groupId>
-	<artifactId>dcsa-reefer-commercial-service</artifactId>
+	<artifactId>dcsa-reefer-commercial-delivery</artifactId>
 	<version>${revision}${sha1}${changelist}</version>
 	<packaging>jar</packaging>
 
-	<description>DCSA Reefer Commercial - Service</description>
+	<description>DCSA Reefer Commercial - Event Delivery</description>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.dcsa.reefer.commercial</groupId>
-			<artifactId>dcsa-reefer-commercial-transfer-obj</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.dcsa.reefer.commercial</groupId>
-			<artifactId>dcsa-reefer-commercial-domain</artifactId>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.dcsa.reefer.commercial</groupId>
-			<artifactId>dcsa-reefer-commercial-delivery</artifactId>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
+			<groupId>com.vladmihalcea</groupId>
+			<artifactId>hibernate-types-60</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.dcsa.shared-kernel</groupId>
-			<artifactId>dcsa-shared-kernel-all</artifactId>
+			<artifactId>dcsa-shared-kernel-domain</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.dcsa.shared-kernel</groupId>
-			<artifactId>dcsa-shared-kernel-test-helpers</artifactId>
-			<scope>test</scope>
+			<artifactId>dcsa-shared-kernel-infrastructure</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

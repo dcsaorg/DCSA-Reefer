@@ -38,6 +38,7 @@
 	<modules>
 		<module>reefer-commercial-transfer-obj</module>
 		<module>reefer-commercial-domain</module>
+		<module>reefer-commercial-event-delivery</module>
 		<module>reefer-commercial-service</module>
 		<module>reefer-commercial-application</module>
 	</modules>
@@ -72,6 +73,11 @@
 			<dependency>
 				<groupId>org.dcsa.reefer.commercial</groupId>
 				<artifactId>dcsa-reefer-commercial-domain</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.dcsa.reefer.commercial</groupId>
+				<artifactId>dcsa-reefer-commercial-delivery</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

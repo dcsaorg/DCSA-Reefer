@@ -1,23 +1,17 @@
-package org.dcsa.reefer.commercial.service;
+package org.dcsa.reefer.commercial.delivery.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dcsa.reefer.commercial.domain.persistence.entity.DeliveredReeferCommercialEvent;
-import org.dcsa.reefer.commercial.domain.persistence.entity.OutgoingReeferCommercialEvent;
-import org.dcsa.reefer.commercial.domain.persistence.entity.ReeferCommercialEventSubscription;
-import org.dcsa.reefer.commercial.domain.persistence.entity.UndeliverableReeferCommercialEvent;
-import org.dcsa.reefer.commercial.domain.persistence.repository.DeliveredReeferCommercialEventRepository;
-import org.dcsa.reefer.commercial.domain.persistence.repository.OutgoingReeferCommercialEventRepository;
-import org.dcsa.reefer.commercial.domain.persistence.repository.ReeferCommercialEventRepository;
-import org.dcsa.reefer.commercial.domain.persistence.repository.ReeferCommercialEventSubscriptionRepository;
-import org.dcsa.reefer.commercial.domain.persistence.repository.UndeliverableReeferCommercialEventRepository;
-import org.dcsa.reefer.commercial.domain.valueobjects.ReeferCommercialEvent;
-import org.dcsa.reefer.commercial.service.exception.EventDeliveryException;
-import org.dcsa.reefer.commercial.service.exception.UnrecoverableEventDeliveryException;
-import org.dcsa.reefer.commercial.service.mapping.ReeferCommercialEventMapper;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.dcsa.reefer.commercial.delivery.persistence.entity.DeliveredEventMessage;
+import org.dcsa.reefer.commercial.delivery.persistence.entity.OutgoingEventMessage;
+import org.dcsa.reefer.commercial.delivery.persistence.entity.UndeliverableEventMessage;
+import org.dcsa.reefer.commercial.delivery.persistence.repository.DeliveredEventMessageRepository;
+import org.dcsa.reefer.commercial.delivery.persistence.repository.OutgoingEventMessageRepository;
+import org.dcsa.reefer.commercial.delivery.persistence.repository.UndeliverableEventMessageRepository;
+import org.dcsa.reefer.commercial.delivery.service.exception.EventDeliveryException;
+import org.dcsa.reefer.commercial.delivery.service.exception.UnrecoverableEventDeliveryException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
@@ -54,33 +48,28 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ReeferCommercialEventDeliveryService {
-  private final OutgoingReeferCommercialEventRepository outgoingRepository;
-  private final ReeferCommercialEventSubscriptionRepository subscriptionRepository;
-  private final DeliveredReeferCommercialEventRepository deliveredRepository;
-  private final UndeliverableReeferCommercialEventRepository deadRepository;
-  private final ReeferCommercialEventRepository eventRepository;
-
-  private final ReeferCommercialEventMapper reeferCommercialEventMapper;
+public class EventDeliveryService {
+  private final EventDeliveryHelperService helperService;
+  private final OutgoingEventMessageRepository outgoingRepository;
+  private final DeliveredEventMessageRepository deliveredRepository;
+  private final UndeliverableEventMessageRepository deadRepository;
 
   private final TransactionTemplate transactionTemplate;
   private final ObjectMapper objectMapper;
-
-  @Qualifier("eventDeliveryRestTemplate")
   private final RestTemplate restTemplate;
 
   private final ExecutorService executor = Executors.newCachedThreadPool();
 
-  @Value("${dcsa.reefer-commercial.delivery.max-threads-per-processor:2}")
+  @Value("${dcsa.event-delivery.max-threads-per-processor:2}")
   private Integer maxThreadsPerProcessor = 2;
 
-  @Value("${dcsa.reefer-commercial.delivery.max-total-threads:8}")
+  @Value("${dcsa.event-delivery.max-total-threads:8}")
   private Integer maxTotalThreads = 8;
 
   @Value("${dcsa.specification.version:N/A}")
   private String apiVersion = "N/A";
 
-  @Value("${dcsa.reefer-commercial.delivery.backoff-delays:1,1,60,1,1,120,1,1,360,1,1,720,1,1,1440,1,1}")
+  @Value("${dcsa.event-delivery.backoff-delays:1,1,60,1,1,120,1,1,360,1,1,720,1,1,1440,1,1}")
   private String backoffDelaysString = "1,1,60,1,1,120,1,1,360,1,1,720,1,1,1440,1,1";
   private Integer[] backoffDelays;
 
@@ -96,8 +85,8 @@ public class ReeferCommercialEventDeliveryService {
   }
 
   @Scheduled(
-    initialDelayString = "${dcsa.reefer-commercial.delivery.initial-delay:5}",
-    fixedDelayString = "${dcsa.reefer-commercial.delivery.fixed-delay:10}",
+    initialDelayString = "${dcsa.event-delivery.initial-delay:5}",
+    fixedDelayString = "${dcsa.event-delivery.fixed-delay:10}",
     timeUnit = TimeUnit.SECONDS
   )
   public void deliverScheduled() {
@@ -142,49 +131,45 @@ public class ReeferCommercialEventDeliveryService {
   }
 
   private boolean deliverEvent(TransactionStatus transactionStatus) {
-    Optional<OutgoingReeferCommercialEvent> eventOpt = outgoingRepository.findNext();
+    Optional<OutgoingEventMessage> eventOpt = outgoingRepository.findNext();
     eventOpt.ifPresent(outEvent -> {
-      ReeferCommercialEventSubscription subscription = null;
-      ReeferCommercialEvent event;
+      EventSubscription subscription = null;
       try {
-        subscription =
-          subscriptionRepository.findById(outEvent.getSubscriptionId())
+        subscription = helperService.findSubscriptionById(outEvent.getSubscriptionId())
             .orElseThrow(() -> new UnrecoverableEventDeliveryException("Unknown or deleted subscription " + outEvent.getSubscriptionId()));
 
-        event =
-          eventRepository.findById(outEvent.getEventId())
-            .map(org.dcsa.reefer.commercial.domain.persistence.entity.ReeferCommercialEvent::getContent)
+        Object event = helperService.findEventByIdAsTO(outEvent.getEventId())
             .orElseThrow(() -> new UnrecoverableEventDeliveryException("Unknown event " + outEvent.getEventId()));
 
-        log.debug("Outgoing event '{}' to '{}={}' - {} previous attempts", event.getEventID(), subscription.getId(), subscription.getCallbackUrl(), outEvent.getDeliveryAttempts());
+        log.debug("Outgoing event '{}' to '{}={}' - {} previous attempts", outEvent.getEventId(), subscription.subscriptionId(), subscription.callbackUrl(), outEvent.getDeliveryAttempts());
 
-        Response response = restTemplate.execute(subscription.getCallbackUrl(), HttpMethod.POST, addPostContent(subscription, event), this::extractResponse);
+        Response response = restTemplate.execute(subscription.callbackUrl(), HttpMethod.POST, addPostContent(subscription, event), this::extractResponse);
         if (!response.status().is2xxSuccessful()) {
           throw new EventDeliveryException("Callback returned " + response.status + ": " + response.content());
         }
 
-        log.debug("Delivered event '{}' to '{}={}'", event.getEventID(), subscription.getId(), subscription.getCallbackUrl());
+        log.debug("Delivered event '{}' to '{}={}'", outEvent.getEventId(), subscription.subscriptionId(), subscription.callbackUrl());
 
-        deliveredRepository.save(DeliveredReeferCommercialEvent.builder()
+        deliveredRepository.save(DeliveredEventMessage.builder()
           .id(outEvent.getId())
-          .eventId(event.getEventID())
-          .subscriptionId(subscription.getId())
-          .callbackUrl(subscription.getCallbackUrl())
+          .eventId(outEvent.getEventId())
+          .subscriptionId(subscription.subscriptionId())
+          .callbackUrl(subscription.callbackUrl())
           .deliveryAttempts(outEvent.getDeliveryAttempts() + 1)
           .deliveryTime(OffsetDateTime.now())
           .build());
         outgoingRepository.delete(outEvent);
       } catch (UnrecoverableEventDeliveryException e) {
         if (subscription != null) {
-          log.warn("Unable to deliver event '{}' to '{}={}' after {} attempts: {}", outEvent.getEventId(), subscription.getId(), subscription.getCallbackUrl(), outEvent.getDeliveryAttempts() + 1, e.getMessage(), e);
+          log.warn("Unable to deliver event '{}' to '{}={}' after {} attempts: {}", outEvent.getEventId(), subscription.subscriptionId(), subscription.callbackUrl(), outEvent.getDeliveryAttempts() + 1, e.getMessage(), e);
         } else {
           log.warn("Unable to deliver event '{}' to {} after {} attempts: {}", outEvent.getEventId(), outEvent.getSubscriptionId(), outEvent.getDeliveryAttempts() + 1, e.getMessage(), e);
         }
-        deadRepository.save(UndeliverableReeferCommercialEvent.builder()
+        deadRepository.save(UndeliverableEventMessage.builder()
           .id(outEvent.getId())
           .eventId(outEvent.getEventId())
           .subscriptionId(outEvent.getSubscriptionId())
-          .callbackUrl(subscription != null ? subscription.getCallbackUrl() : null)
+          .callbackUrl(subscription != null ? subscription.callbackUrl() : null)
           .deliveryAttempts(outEvent.getDeliveryAttempts() + 1)
           .lastDeliveryAttemptTime(OffsetDateTime.now())
           .errorDetails(e.getMessage())
@@ -192,12 +177,12 @@ public class ReeferCommercialEventDeliveryService {
         outgoingRepository.delete(outEvent);
       } catch (Exception e) {
         if (outEvent.getDeliveryAttempts() >= backoffDelays.length) {
-          log.warn("Unable to deliver event '{}' to '{}={}' after {} attempts: {}", outEvent.getEventId(), subscription.getId(), subscription.getCallbackUrl(), outEvent.getDeliveryAttempts() + 1, e.getMessage(), e);
-          deadRepository.save(UndeliverableReeferCommercialEvent.builder()
+          log.warn("Unable to deliver event '{}' to '{}={}' after {} attempts: {}", outEvent.getEventId(), subscription.subscriptionId(), subscription.callbackUrl(), outEvent.getDeliveryAttempts() + 1, e.getMessage(), e);
+          deadRepository.save(UndeliverableEventMessage.builder()
             .id(outEvent.getId())
             .eventId(outEvent.getEventId())
             .subscriptionId(outEvent.getSubscriptionId())
-            .callbackUrl(subscription.getCallbackUrl())
+            .callbackUrl(subscription.callbackUrl())
             .deliveryAttempts(outEvent.getDeliveryAttempts() + 1)
             .lastDeliveryAttemptTime(OffsetDateTime.now())
             .errorDetails(e.getMessage())
@@ -205,7 +190,7 @@ public class ReeferCommercialEventDeliveryService {
           outgoingRepository.delete(outEvent);
         } else {
           int backoff = backoffDelays[outEvent.getDeliveryAttempts()];
-          log.warn("Error delivering event '{}' to '{}={}', attempting again after {} minutes: {}", outEvent.getEventId(), subscription.getId(), subscription.getCallbackUrl(), backoff, e.getMessage());
+          log.warn("Error delivering event '{}' to '{}={}', attempting again after {} minutes: {}", outEvent.getEventId(), subscription.subscriptionId(), subscription.callbackUrl(), backoff, e.getMessage());
           outgoingRepository.save(outEvent.toBuilder()
             .deliveryAttempts(outEvent.getDeliveryAttempts() + 1)
             .nextDeliveryAttemptTime(OffsetDateTime.now().plusMinutes(backoff))
@@ -217,11 +202,11 @@ public class ReeferCommercialEventDeliveryService {
     return eventOpt.isPresent();
   }
 
-  private RequestCallback addPostContent(final ReeferCommercialEventSubscription subscription, final ReeferCommercialEvent event) {
+  private RequestCallback addPostContent(final EventSubscription subscription, final Object event) {
     return (ClientHttpRequest request) -> {
-      byte[] body = objectMapper.writeValueAsBytes(List.of(reeferCommercialEventMapper.toDTO(event)));
-      byte[] signature = computeSignature(subscription.getSecret(), body);
-      request.getHeaders().add("Subscription-ID", subscription.getId().toString());
+      byte[] body = objectMapper.writeValueAsBytes(List.of(event));
+      byte[] signature = computeSha256Signature(subscription.secret(), body);
+      request.getHeaders().add("Subscription-ID", subscription.subscriptionId().toString());
       request.getHeaders().add("Notification-Signature", "sha256=" + new String(Hex.encode(signature)));
       request.getHeaders().add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
       request.getHeaders().add("API-Version", apiVersion);
@@ -229,7 +214,7 @@ public class ReeferCommercialEventDeliveryService {
     };
   }
 
-  public byte[] computeSignature(byte[] key, byte[] payload) {
+  public byte[] computeSha256Signature(byte[] key, byte[] payload) {
     try {
       Mac mac = Mac.getInstance("HmacSHA256");
       mac.init(new SecretKeySpec(key, "HmacSHA256"));
