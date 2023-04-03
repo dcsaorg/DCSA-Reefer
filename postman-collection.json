@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "d188965e-cc6d-4f55-b63d-f5d19ac7d53b",
-		"name": "DCSA-Reefer",
+		"_postman_id": "4302cee1-c996-496d-9b47-eb4d80b808cc",
+		"name": "DCSA-Reefer-Commercial",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -33,9 +33,2011 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}{{HEALTH_ENDPOINT}}",
+							"raw": "{{BASE_URL}}/actuator/health",
 							"host": [
-								"{{BASE_URL}}{{HEALTH_ENDPOINT}}"
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Events",
+			"item": [
+				{
+					"name": "Insert Test Data (Unofficial)",
+					"item": [
+						{
+							"name": "Post Test Event 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const parsedBody = pm.response.json();",
+											"pm.collectionVariables.set(\"EVENT_ID_1\", parsedBody.eventID);",
+											"pm.collectionVariables.set(\"EVENT_1_POST_BODY\", pm.request.body.raw)",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"metadata\": {\n        \"eventType\": \"REEFER\",\n        \"eventCreatedDateTime\": \"2022-09-19T04:31:00Z\",\n        \"publisher\": {\n            \"partyName\": \"Maersk\",\n            \"carrierCode\": \"MSK\",\n            \"carrierCodeListProvider\": \"SMDG\"\n        },\n        \"publisherRole\": \"CA\"\n    },\n    \"payload\": {\n        \"eventClassifierCode\": \"ACT\",\n        \"eventDateTime\": \"2022-09-19T04:31:00Z\",\n        \"reeferEventTypeCode\": \"MEAS\",\n        \"measurements\": {\n            \"ambientTemperature\": 22.0,\n            \"temperature\": -17.9,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.5,\n            \"co2\": 15.2,\n            \"humidity\": 88.0,\n            \"airExchange\": 0.0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"setpoints\": {\n            \"temperature\": -18.0,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.0,\n            \"co2\": 15.0,\n            \"humidity\": 88.0,\n            \"airExchange\": 0.0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"geoLocation\": {\n            \"latitude\": \"48.85855\",\n            \"longitude\": \"2.29449203\"\n        },\n        \"equipmentReference\": \"MSKU9070323\",\n        \"relatedDocumentReferences\": [\n            {\n                \"type\": \"BKG\",\n                \"value\": \"ABC123059\"\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/events/",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"unofficial",
+										"events",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post Test Event 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const parsedBody = pm.response.json();",
+											"pm.collectionVariables.set(\"EVENT_ID_2\", parsedBody.eventID);",
+											"pm.collectionVariables.set(\"EVENT_2_POST_BODY\", pm.request.body.raw)",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"metadata\": {\n        \"eventType\": \"REEFER\",\n        \"eventCreatedDateTime\": \"2022-09-19T04:31:00Z\",\n        \"publisher\": {\n            \"partyName\": \"Maersk\",\n            \"carrierCode\": \"MSK\",\n            \"carrierCodeListProvider\": \"SMDG\"\n        },\n        \"publisherRole\": \"CA\"\n    },\n    \"payload\": {\n        \"eventClassifierCode\": \"ACT\",\n        \"eventDateTime\": \"2022-09-19T04:31:00Z\",\n        \"reeferEventTypeCode\": \"MEAS\",\n        \"measurements\": {\n            \"ambientTemperature\": 22.0,\n            \"temperature\": -17.9,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.5,\n            \"co2\": 15.2,\n            \"humidity\": 88.0,\n            \"airExchange\": 0.0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"setpoints\": {\n            \"temperature\": -18.0,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.0,\n            \"co2\": 15.0,\n            \"humidity\": 88.0,\n            \"airExchange\": 0.0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"geoLocation\": {\n            \"latitude\": \"48.85855\",\n            \"longitude\": \"2.29449203\"\n        },\n        \"equipmentReference\": \"APZU4812090\",\n        \"relatedDocumentReferences\": [\n            {\n                \"type\": \"SHI\",\n                \"value\": \"ABC123059\"\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/events/",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"unofficial",
+										"events",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post Test Event 3 (Retracted Event)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const parsedBody = pm.response.json();",
+											"pm.collectionVariables.set(\"EVENT_ID_3\", parsedBody.eventID);",
+											"pm.collectionVariables.set(\"EVENT_3_POST_BODY\", pm.request.body.raw)",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"metadata\": {\n        \"eventType\": \"REEFER\",\n        \"eventCreatedDateTime\": \"2022-09-19T04:31:00Z\",\n        \"retractedEventID\": \"f6583a9a-7a23-465d-9693-fdb464205e73\",\n        \"publisher\": {\n            \"partyName\": \"Maersk\",\n            \"carrierCode\": \"MSK\",\n            \"carrierCodeListProvider\": \"SMDG\"\n        },\n        \"publisherRole\": \"CA\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/events/",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"unofficial",
+										"events",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Positive test cases",
+					"item": [
+						{
+							"name": "Get Test Event 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const postRequestBodyRaw = pm.collectionVariables.get(\"EVENT_1_POST_BODY\");",
+											"",
+											"pm.test(\"Response matches post\", () => {",
+											"    const jsonData = pm.response.json();",
+											"    const postRequestBody = JSON.parse(postRequestBodyRaw);",
+											"",
+											"    postRequestBody.metadata.eventID = pm.collectionVariables.get(\"EVENT_ID_1\");",
+											"",
+											"    // For debugging:",
+											"    console.log(jsonData);",
+											"    console.log(postRequestBody);",
+											"    pm.expect(jsonData).to.eql(postRequestBody);",
+											"});",
+											"",
+											"pm.collectionVariables.unset(\"EVENT_ID_1\");",
+											"pm.collectionVariables.unset(\"EVENT_1_POST_BODY\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events/{{EVENT_ID_1}}",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events",
+										"{{EVENT_ID_1}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Test Event 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const postRequestBodyRaw = pm.collectionVariables.get(\"EVENT_2_POST_BODY\");",
+											"",
+											"pm.test(\"Response matches post\", () => {",
+											"    const jsonData = pm.response.json();",
+											"    const postRequestBody = JSON.parse(postRequestBodyRaw);",
+											"",
+											"    postRequestBody.metadata.eventID = pm.collectionVariables.get(\"EVENT_ID_2\");",
+											"",
+											"    // For debugging:",
+											"    console.log(jsonData);",
+											"    console.log(postRequestBody);",
+											"    pm.expect(jsonData).to.eql(postRequestBody);",
+											"});",
+											"",
+											"pm.collectionVariables.unset(\"EVENT_ID_2\");",
+											"pm.collectionVariables.unset(\"EVENT_2_POST_BODY\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events/{{EVENT_ID_2}}",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events",
+										"{{EVENT_ID_2}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Test Event 3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const postRequestBodyRaw = pm.collectionVariables.get(\"EVENT_3_POST_BODY\");",
+											"",
+											"pm.test(\"Response matches post\", () => {",
+											"    const jsonData = pm.response.json();",
+											"    const postRequestBody = JSON.parse(postRequestBodyRaw);",
+											"",
+											"    postRequestBody.metadata.eventID = pm.collectionVariables.get(\"EVENT_ID_3\");",
+											"",
+											"    // For debugging:",
+											"    console.log(jsonData);",
+											"    console.log(postRequestBody);",
+											"    pm.expect(jsonData).to.eql(postRequestBody);",
+											"});",
+											"",
+											"pm.collectionVariables.unset(\"EVENT_ID_3\");",
+											"pm.collectionVariables.unset(\"EVENT_3_POST_BODY\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events/{{EVENT_ID_3}}",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events",
+										"{{EVENT_ID_3}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all events",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body contains at least 3 items', () => {",
+											"    pm.expect(jsonData.length).to.above(2);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by carrierBookingReference",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body contains at least 1 items', () => {",
+											"    pm.expect(jsonData.length).to.above(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?carrierBookingReference=ABC123059",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "carrierBookingReference",
+											"value": "ABC123059"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by equipmentReference",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body contains at least 1 items', () => {",
+											"    pm.expect(jsonData.length).to.above(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?equipmentReference=APZU4812090",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "equipmentReference",
+											"value": "APZU4812090"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by reeferEventTypeCodes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body contains at least 1 items', () => {",
+											"    pm.expect(jsonData.length).to.above(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?reeferEventTypeCodes=MEAS",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "reeferEventTypeCodes",
+											"value": "MEAS"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by combi",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body contains at least 1 items', () => {",
+											"    pm.expect(jsonData.length).to.above(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?equipmentReference=MSKU9070323&carrierBookingReference=ABC123059&reeferEventTypeCodes=MEAS",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "equipmentReference",
+											"value": "MSKU9070323"
+										},
+										{
+											"key": "carrierBookingReference",
+											"value": "ABC123059"
+										},
+										{
+											"key": "reeferEventTypeCodes",
+											"value": "MEAS"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by eventCreatedDateTime",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body contains at least 1 items', () => {",
+											"    pm.expect(jsonData.length).to.above(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?eventCreatedDateTime:gt=2022-09-19T00:00:00Z",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventCreatedDateTime:gt",
+											"value": "2022-09-19T00:00:00Z"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by eventDateTime",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Body contains at least 1 items', () => {",
+											"    pm.expect(jsonData.length).to.above(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?eventDateTime:gt=2022-09-19T00:00:00Z",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventDateTime:gt",
+											"value": "2022-09-19T00:00:00Z"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"API-Version header is set correctly\", () => {",
+									"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Negative test cases",
+					"item": [
+						{
+							"name": "Get non-existant event",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", () => {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events/not-exists",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events",
+										"not-exists"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by non-existant equipmentReference",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Body is empty', () => {",
+											"    pm.expect(jsonData.length).to.eql(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?equipmentReference=NONU1234563",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "equipmentReference",
+											"value": "NONU1234563"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by non-existant carrierBookingReference",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Body is empty', () => {",
+											"    pm.expect(jsonData.length).to.eql(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?carrierBookingReference=not-there",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "carrierBookingReference",
+											"value": "not-there"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by ancient eventCreatedDateTime",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Body is empty', () => {",
+											"    pm.expect(jsonData.length).to.eql(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?eventCreatedDateTime=1822-09-19T04:31:00Z",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventCreatedDateTime",
+											"value": "1822-09-19T04:31:00Z"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search by ancient eventDateTime",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Body is empty', () => {",
+											"    pm.expect(jsonData.length).to.eql(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/events?eventDateTime=1822-09-19T04:31:00Z",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventDateTime",
+											"value": "1822-09-19T04:31:00Z"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"API-Version header is set correctly\", () => {",
+									"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+									"});",
+									""
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Subscriptions",
+			"item": [
+				{
+					"name": "Create Update Delete Flow",
+					"item": [
+						{
+							"name": "Create subscription",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const parsedBody = pm.response.json();",
+											"",
+											"pm.collectionVariables.set(\"SUBSCRIPTION_ID\", parsedBody.subscriptionID);",
+											"pm.collectionVariables.set(\"SUBSCRIPTION_POST_BODY\", pm.request.body.raw)",
+											"",
+											"pm.test(\"API-Version header is set correctly\", () => {",
+											"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+											"});",
+											"",
+											"pm.test(\"Status code is 201\", () => {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"callbackUrl\": \"http://localhost:9090{{CONTEXT_PATH}}/unofficial/callback/events/\",\n    \"equipmentReference\": \"APZU4812090\",\n    \"carrierBookingReference\": \"ABC123059\",\n    \"secret\": \"dmVyeSBzZWNyZXQgc2VjcmV0IHRoYXQgaXMgc28gc2VjcmV0\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"event-subscriptions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all subscriptions",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const postRequestBodyRaw = pm.collectionVariables.get(\"SUBSCRIPTION_POST_BODY\");",
+											"",
+											"pm.test(\"API-Version header is set correctly\", () => {",
+											"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+											"});",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Body contains at least 1 item', () => {",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData.length).to.above(0);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"event-subscriptions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify subscription",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const postRequestBodyRaw = pm.collectionVariables.get(\"SUBSCRIPTION_POST_BODY\");",
+											"",
+											"pm.test(\"API-Version header is set correctly\", () => {",
+											"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+											"});",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response matches post\", () => {",
+											"    const jsonData = pm.response.json();",
+											"    const postRequestBody = JSON.parse(postRequestBodyRaw);",
+											"",
+											"    delete postRequestBody[\"secret\"];",
+											"    delete jsonData[\"subscriptionID\"];",
+											"    delete jsonData[\"subscriptionCreatedDateTime\"];",
+											"    delete jsonData[\"subscriptionUpdatedDateTime\"];",
+											"",
+											"    // For debugging:",
+											"    console.log(jsonData);",
+											"    console.log(postRequestBody);",
+											"    pm.expect(jsonData).to.eql(postRequestBody);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions/{{SUBSCRIPTION_ID}}",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"event-subscriptions",
+										"{{SUBSCRIPTION_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify subscription secret",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const postRequestBodyRaw = pm.collectionVariables.get(\"SUBSCRIPTION_POST_BODY\");",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response secret matches post\", () => {",
+											"    const jsonData = pm.response.json();",
+											"    const postRequestBody = JSON.parse(postRequestBodyRaw);",
+											"",
+											"    pm.expect(jsonData.secret).to.eql(postRequestBody.secret);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/event-subscriptions/{{SUBSCRIPTION_ID}}/secret",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"unofficial",
+										"event-subscriptions",
+										"{{SUBSCRIPTION_ID}}",
+										"secret"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update subscription",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const parsedBody = pm.response.json();",
+											"",
+											"pm.collectionVariables.set(\"SUBSCRIPTION_POST_BODY\", pm.request.body.raw)",
+											"",
+											"pm.test(\"API-Version header is set correctly\", () => {",
+											"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+											"});",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"subscriptionID\": \"{{SUBSCRIPTION_ID}}\",\n    \"callbackUrl\": \"http://test.me/event-subscription-callback-url-different\",\n    \"equipmentReference\": \"MSKU9070323\",\n    \"carrierBookingReference\": \"CBA123059\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions/{{SUBSCRIPTION_ID}}",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"event-subscriptions",
+										"{{SUBSCRIPTION_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify subscription after update",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const postRequestBodyRaw = pm.collectionVariables.get(\"SUBSCRIPTION_POST_BODY\");",
+											"",
+											"pm.test(\"API-Version header is set correctly\", () => {",
+											"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+											"});",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response matches post\", () => {",
+											"    const jsonData = pm.response.json();",
+											"    const postRequestBody = JSON.parse(postRequestBodyRaw);",
+											"",
+											"    delete jsonData[\"subscriptionCreatedDateTime\"];",
+											"    delete jsonData[\"subscriptionUpdatedDateTime\"];",
+											"",
+											"    // For debugging:",
+											"    console.log(jsonData);",
+											"    console.log(postRequestBody);",
+											"    pm.expect(jsonData).to.eql(postRequestBody);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions/{{SUBSCRIPTION_ID}}",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"event-subscriptions",
+										"{{SUBSCRIPTION_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update subscription secret",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set(\"SUBSCRIPTION_POST_BODY\", pm.request.body.raw)",
+											"",
+											"pm.test(\"API-Version header is set correctly\", () => {",
+											"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+											"});",
+											"",
+											"pm.test(\"Status code is 204\", () => {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"secret\": \"YW5vdGhlciBzZWNyZXQgLSBub3QgdGhlIHNhbWUgYXMgYmVmb3Jl\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions/{{SUBSCRIPTION_ID}}/secret",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"event-subscriptions",
+										"{{SUBSCRIPTION_ID}}",
+										"secret"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify subscription secret after update",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const postRequestBodyRaw = pm.collectionVariables.get(\"SUBSCRIPTION_POST_BODY\");",
+											"",
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response secret matches post\", () => {",
+											"    const jsonData = pm.response.json();",
+											"    const postRequestBody = JSON.parse(postRequestBodyRaw);",
+											"",
+											"    pm.expect(jsonData.secret).to.eql(postRequestBody.secret);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/event-subscriptions/{{SUBSCRIPTION_ID}}/secret",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"unofficial",
+										"event-subscriptions",
+										"{{SUBSCRIPTION_ID}}",
+										"secret"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete subscription",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"API-Version header is set correctly\", () => {",
+											"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+											"});",
+											"",
+											"pm.test(\"Status code is 204\", () => {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions/{{SUBSCRIPTION_ID}}",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"event-subscriptions",
+										"{{SUBSCRIPTION_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify subscription deleted",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"API-Version header is set correctly\", () => {",
+											"    pm.expect(pm.response.headers.get(\"API-Version\")).to.eql(pm.collectionVariables.get(\"SPEC_VERSION\"));",
+											"});",
+											"",
+											"pm.test(\"Status code is 404\", () => {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.collectionVariables.unset(\"SUBSCRIPTION_ID\");",
+											"pm.collectionVariables.unset(\"SUBSCRIPTION_POST_BODY\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions/{{SUBSCRIPTION_ID}}",
+									"host": [
+										"{{BASE_URL}}{{CONTEXT_PATH}}"
+									],
+									"path": [
+										"event-subscriptions",
+										"{{SUBSCRIPTION_ID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Event delivery",
+			"item": [
+				{
+					"name": "Create subscription for all",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const parsedBody = pm.response.json();",
+									"",
+									"pm.collectionVariables.set(\"SUBSCRIPTION_ALL_ID\", parsedBody.subscriptionID);",
+									"",
+									"pm.test(\"Status code is 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"callbackUrl\": \"http://localhost:9090{{CONTEXT_PATH}}/unofficial/callback/events/\",\n    \"secret\": \"dmVyeSBzZWNyZXQgc2VjcmV0IHRoYXQgaXMgc28gc2VjcmV0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions",
+							"host": [
+								"{{BASE_URL}}{{CONTEXT_PATH}}"
+							],
+							"path": [
+								"event-subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create subscription on equipmentReference",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const parsedBody = pm.response.json();",
+									"",
+									"pm.collectionVariables.set(\"SUBSCRIPTION_ER_ID\", parsedBody.subscriptionID);",
+									"",
+									"pm.test(\"Status code is 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"callbackUrl\": \"http://localhost:9090{{CONTEXT_PATH}}/unofficial/callback/events/\",\n    \"equipmentReference\": \"MSKU9070323\",\n    \"secret\": \"dmVyeSBzZWNyZXQgc2VjcmV0IHRoYXQgaXMgc28gc2VjcmV0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions",
+							"host": [
+								"{{BASE_URL}}{{CONTEXT_PATH}}"
+							],
+							"path": [
+								"event-subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create subscription on carrierBookingReference",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const parsedBody = pm.response.json();",
+									"",
+									"pm.collectionVariables.set(\"SUBSCRIPTION_CBR_ID\", parsedBody.subscriptionID);",
+									"",
+									"pm.test(\"Status code is 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"callbackUrl\": \"http://localhost:9090{{CONTEXT_PATH}}/unofficial/callback/events/\",\n    \"carrierBookingReference\": \"ABC123059\",\n    \"secret\": \"dmVyeSBzZWNyZXQgc2VjcmV0IHRoYXQgaXMgc28gc2VjcmV0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions",
+							"host": [
+								"{{BASE_URL}}{{CONTEXT_PATH}}"
+							],
+							"path": [
+								"event-subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create subscription match both",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const parsedBody = pm.response.json();",
+									"",
+									"pm.collectionVariables.set(\"SUBSCRIPTION_BOTH_ID\", parsedBody.subscriptionID);",
+									"",
+									"pm.test(\"Status code is 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"callbackUrl\": \"http://localhost:9090{{CONTEXT_PATH}}/unofficial/callback/events/\",\n    \"equipmentReference\": \"MSKU9070323\",\n    \"carrierBookingReference\": \"ABC123059\",\n    \"secret\": \"dmVyeSBzZWNyZXQgc2VjcmV0IHRoYXQgaXMgc28gc2VjcmV0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/event-subscriptions",
+							"host": [
+								"{{BASE_URL}}{{CONTEXT_PATH}}"
+							],
+							"path": [
+								"event-subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Test Event 1 (Retracted Event)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"const parsedBody = pm.response.json();",
+									"pm.collectionVariables.set(\"EVENT_ID_1\", parsedBody.eventID);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"metadata\": {\n        \"eventType\": \"REEFER\",\n        \"eventCreatedDateTime\": \"2022-09-19T04:31:00Z\",\n        \"retractedEventID\": \"f6583a9a-7a23-465d-9693-fdb464205e73\",\n        \"publisher\": {\n            \"partyName\": \"Maersk\",\n            \"carrierCode\": \"MSK\",\n            \"carrierCodeListProvider\": \"SMDG\"\n        },\n        \"publisherRole\": \"CA\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/events/",
+							"host": [
+								"{{BASE_URL}}{{CONTEXT_PATH}}"
+							],
+							"path": [
+								"unofficial",
+								"events",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Test Event 2 (Match both)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"const parsedBody = pm.response.json();",
+									"pm.collectionVariables.set(\"EVENT_ID_2\", parsedBody.eventID);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"metadata\": {\n        \"eventType\": \"REEFER\",\n        \"eventCreatedDateTime\": \"2022-09-19T04:31:00Z\",\n        \"publisher\": {\n            \"partyName\": \"Maersk\",\n            \"carrierCode\": \"MSK\",\n            \"carrierCodeListProvider\": \"SMDG\"\n        },\n        \"publisherRole\": \"CA\"\n    },\n    \"payload\": {\n        \"eventClassifierCode\": \"ACT\",\n        \"eventDateTime\": \"2022-09-19T04:31:00Z\",\n        \"reeferEventTypeCode\": \"MEAS\",\n        \"measurements\": {\n            \"ambientTemperature\": 22.0,\n            \"temperature\": -17.9,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.5,\n            \"co2\": 15.2,\n            \"humidity\": 88.0,\n            \"airExchange\": 0.0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"setpoints\": {\n            \"temperature\": -18.0,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.0,\n            \"co2\": 15.0,\n            \"humidity\": 88.0,\n            \"airExchange\": 0.0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"geoLocation\": {\n            \"latitude\": \"48.85855\",\n            \"longitude\": \"2.29449203\"\n        },\n        \"equipmentReference\": \"MSKU9070323\",\n        \"relatedDocumentReferences\": [\n            {\n                \"type\": \"BKG\",\n                \"value\": \"ABC123059\"\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/events/",
+							"host": [
+								"{{BASE_URL}}{{CONTEXT_PATH}}"
+							],
+							"path": [
+								"unofficial",
+								"events",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Test Event 3 (Match equipmentReference)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"const parsedBody = pm.response.json();",
+									"pm.collectionVariables.set(\"EVENT_ID_3\", parsedBody.eventID);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"metadata\": {\n        \"eventType\": \"REEFER\",\n        \"eventCreatedDateTime\": \"2022-09-19T04:31:00Z\",\n        \"publisher\": {\n            \"partyName\": \"Maersk\",\n            \"carrierCode\": \"MSK\",\n            \"carrierCodeListProvider\": \"SMDG\"\n        },\n        \"publisherRole\": \"CA\"\n    },\n    \"payload\": {\n        \"eventClassifierCode\": \"ACT\",\n        \"eventDateTime\": \"2022-09-19T04:31:00Z\",\n        \"reeferEventTypeCode\": \"MEAS\",\n        \"measurements\": {\n            \"ambientTemperature\": 22.0,\n            \"temperature\": -17.9,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.5,\n            \"co2\": 15.2,\n            \"humidity\": 88.0,\n            \"airExchange\": 0.0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"setpoints\": {\n            \"temperature\": -18.0,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.0,\n            \"co2\": 15.0,\n            \"humidity\": 88.0,\n            \"airExchange\": 0.0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"geoLocation\": {\n            \"latitude\": \"48.85855\",\n            \"longitude\": \"2.29449203\"\n        },\n        \"equipmentReference\": \"MSKU9070323\",\n        \"relatedDocumentReferences\": [\n            {\n                \"type\": \"SHI\",\n                \"value\": \"ABC123059\"\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/events/",
+							"host": [
+								"{{BASE_URL}}{{CONTEXT_PATH}}"
+							],
+							"path": [
+								"unofficial",
+								"events",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Test Event 4 (Match none)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"const parsedBody = pm.response.json();",
+									"pm.collectionVariables.set(\"EVENT_ID_4\", parsedBody.eventID);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"metadata\": {\n        \"eventType\": \"REEFER\",\n        \"eventCreatedDateTime\": \"2022-09-19T04:31:00Z\",\n        \"publisher\": {\n            \"partyName\": \"Maersk\",\n            \"carrierCode\": \"MSK\",\n            \"carrierCodeListProvider\": \"SMDG\"\n        },\n        \"publisherRole\": \"CA\"\n    },\n    \"payload\": {\n        \"eventClassifierCode\": \"ACT\",\n        \"eventDateTime\": \"2022-09-19T04:31:00Z\",\n        \"reeferEventTypeCode\": \"MEAS\",\n        \"measurements\": {\n            \"ambientTemperature\": 22.0,\n            \"temperature\": -17.9,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.5,\n            \"co2\": 15.2,\n            \"humidity\": 88.0,\n            \"airExchange\": 0.0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"setpoints\": {\n            \"temperature\": -18.0,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.0,\n            \"co2\": 15.0,\n            \"humidity\": 88.0,\n            \"airExchange\": 0.0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"geoLocation\": {\n            \"latitude\": \"48.85855\",\n            \"longitude\": \"2.29449203\"\n        },\n        \"equipmentReference\": \"APZU4812090\",\n        \"relatedDocumentReferences\": [\n            {\n                \"type\": \"SHI\",\n                \"value\": \"ABC123059\"\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/events/",
+							"host": [
+								"{{BASE_URL}}{{CONTEXT_PATH}}"
+							],
+							"path": [
+								"unofficial",
+								"events",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Test Event 5 (Match carrierBookingReference)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"const parsedBody = pm.response.json();",
+									"pm.collectionVariables.set(\"EVENT_ID_5\", parsedBody.eventID);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"metadata\": {\n        \"eventType\": \"REEFER\",\n        \"eventCreatedDateTime\": \"2022-09-19T04:31:00Z\",\n        \"publisher\": {\n            \"partyName\": \"Maersk\",\n            \"carrierCode\": \"MSK\",\n            \"carrierCodeListProvider\": \"SMDG\"\n        },\n        \"publisherRole\": \"CA\"\n    },\n    \"payload\": {\n        \"eventClassifierCode\": \"ACT\",\n        \"eventDateTime\": \"2022-09-19T04:31:00Z\",\n        \"reeferEventTypeCode\": \"MEAS\",\n        \"measurements\": {\n            \"ambientTemperature\": 22.0,\n            \"temperature\": -17.9,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.5,\n            \"co2\": 15.2,\n            \"humidity\": 88.0,\n            \"airExchange\": 0.0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"setpoints\": {\n            \"temperature\": -18.0,\n            \"temperatureUnit\": \"CEL\",\n            \"o2\": 10.0,\n            \"co2\": 15.0,\n            \"humidity\": 88.0,\n            \"airExchange\": 0.0,\n            \"airExchangeUnit\": \"MQH\"\n        },\n        \"geoLocation\": {\n            \"latitude\": \"48.85855\",\n            \"longitude\": \"2.29449203\"\n        },\n        \"equipmentReference\": \"APZU4812090\",\n        \"relatedDocumentReferences\": [\n            {\n                \"type\": \"BKG\",\n                \"value\": \"ABC123059\"\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/events/",
+							"host": [
+								"{{BASE_URL}}{{CONTEXT_PATH}}"
+							],
+							"path": [
+								"unofficial",
+								"events",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ensure delivery of events",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", () => {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/callback/deliver-events/",
+							"host": [
+								"{{BASE_URL}}{{CONTEXT_PATH}}"
+							],
+							"path": [
+								"unofficial",
+								"callback",
+								"deliver-events",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify that \"all\" subscription received all events",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test('Body contains all events', () => {",
+									"    pm.expect(jsonData).to.include(pm.collectionVariables.get(\"EVENT_ID_1\"));",
+									"    pm.expect(jsonData).to.include(pm.collectionVariables.get(\"EVENT_ID_2\"));",
+									"    pm.expect(jsonData).to.include(pm.collectionVariables.get(\"EVENT_ID_3\"));",
+									"    pm.expect(jsonData).to.include(pm.collectionVariables.get(\"EVENT_ID_4\"));",
+									"    pm.expect(jsonData).to.include(pm.collectionVariables.get(\"EVENT_ID_5\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/callback/events/{{SUBSCRIPTION_ALL_ID}}/",
+							"host": [
+								"{{BASE_URL}}{{CONTEXT_PATH}}"
+							],
+							"path": [
+								"unofficial",
+								"callback",
+								"events",
+								"{{SUBSCRIPTION_ALL_ID}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify that equipmentReference subscription received expected events",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test('Body contains the expected events', () => {",
+									"    pm.expect(jsonData).to.not.include(pm.collectionVariables.get(\"EVENT_ID_1\"));",
+									"    pm.expect(jsonData).to.include(pm.collectionVariables.get(\"EVENT_ID_2\"));",
+									"    pm.expect(jsonData).to.include(pm.collectionVariables.get(\"EVENT_ID_3\"));",
+									"    pm.expect(jsonData).to.not.include(pm.collectionVariables.get(\"EVENT_ID_4\"));",
+									"    pm.expect(jsonData).to.not.include(pm.collectionVariables.get(\"EVENT_ID_5\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/callback/events/{{SUBSCRIPTION_ER_ID}}/",
+							"host": [
+								"{{BASE_URL}}{{CONTEXT_PATH}}"
+							],
+							"path": [
+								"unofficial",
+								"callback",
+								"events",
+								"{{SUBSCRIPTION_ER_ID}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify that carrierBookingReference subscription received expected events",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test('Body contains the expected events', () => {",
+									"    pm.expect(jsonData).to.not.include(pm.collectionVariables.get(\"EVENT_ID_1\"));",
+									"    pm.expect(jsonData).to.include(pm.collectionVariables.get(\"EVENT_ID_2\"));",
+									"    pm.expect(jsonData).to.not.include(pm.collectionVariables.get(\"EVENT_ID_3\"));",
+									"    pm.expect(jsonData).to.not.include(pm.collectionVariables.get(\"EVENT_ID_4\"));",
+									"    pm.expect(jsonData).to.include(pm.collectionVariables.get(\"EVENT_ID_5\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/callback/events/{{SUBSCRIPTION_CBR_ID}}/",
+							"host": [
+								"{{BASE_URL}}{{CONTEXT_PATH}}"
+							],
+							"path": [
+								"unofficial",
+								"callback",
+								"events",
+								"{{SUBSCRIPTION_CBR_ID}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify that \"both\" subscription received expected events",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test('Body contains the expected events', () => {",
+									"    pm.expect(jsonData).to.not.include(pm.collectionVariables.get(\"EVENT_ID_1\"));",
+									"    pm.expect(jsonData).to.include(pm.collectionVariables.get(\"EVENT_ID_2\"));",
+									"    pm.expect(jsonData).to.not.include(pm.collectionVariables.get(\"EVENT_ID_3\"));",
+									"    pm.expect(jsonData).to.not.include(pm.collectionVariables.get(\"EVENT_ID_4\"));",
+									"    pm.expect(jsonData).to.not.include(pm.collectionVariables.get(\"EVENT_ID_5\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/callback/events/{{SUBSCRIPTION_BOTH_ID}}/",
+							"host": [
+								"{{BASE_URL}}{{CONTEXT_PATH}}"
+							],
+							"path": [
+								"unofficial",
+								"callback",
+								"events",
+								"{{SUBSCRIPTION_BOTH_ID}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Clear context",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", () => {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									"",
+									"pm.collectionVariables.unset(\"SUBSCRIPTION_ALL_ID\");",
+									"pm.collectionVariables.unset(\"SUBSCRIPTION_ER_ID\");",
+									"pm.collectionVariables.unset(\"SUBSCRIPTION_CBR_ID\");",
+									"pm.collectionVariables.unset(\"SUBSCRIPTION_BOTH_ID\");",
+									"pm.collectionVariables.unset(\"EVENT_ID_1\");",
+									"pm.collectionVariables.unset(\"EVENT_ID_2\");",
+									"pm.collectionVariables.unset(\"EVENT_ID_3\");",
+									"pm.collectionVariables.unset(\"EVENT_ID_4\");",
+									"pm.collectionVariables.unset(\"EVENT_ID_5\");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{CONTEXT_PATH}}/unofficial/callback/events/clear",
+							"host": [
+								"{{BASE_URL}}{{CONTEXT_PATH}}"
+							],
+							"path": [
+								"unofficial",
+								"callback",
+								"events",
+								"clear"
 							]
 						}
 					},
@@ -59,6 +2061,9 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
+					"pm.test(\"API-Version is present\", () => {",
+					"    pm.response.to.have.header(\"API-Version\");",
+					"});",
 					""
 				]
 			}
@@ -71,8 +2076,13 @@
 			"type": "default"
 		},
 		{
-			"key": "HEALTH_ENDPOINT",
-			"value": "/actuator/health",
+			"key": "CONTEXT_PATH",
+			"value": "/reefer-commercial/v1",
+			"type": "default"
+		},
+		{
+			"key": "SPEC_VERSION",
+			"value": "1.0.0",
 			"type": "default"
 		}
 	]

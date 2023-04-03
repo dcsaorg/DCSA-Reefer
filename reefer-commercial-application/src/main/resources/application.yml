@@ -1,14 +1,10 @@
 
 dcsa:
   specification:
+    version: 1.0.0
     by-prefix:
       - prefix: /reefer-commercial/v1
         version: 1.0.0
-  reefer-commercial:
-    cache:
-      delay: 60000
-      initial-delay: 2000
-      max-queue-results: 100
 
 spring:
   application:
@@ -16,7 +12,7 @@ spring:
     context-path: /reefer-commercial/v1
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${db_hostname}/dcsa_openapi
+    url: jdbc:postgresql://${db_hostname}/dcsa_reefer_commercial
     username: dcsa_db_owner
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -30,7 +26,7 @@ spring:
     active: nosecurity
     group:
       dev: nosecurity, logsql, localdb
-      test: nosecurity, logsql, localdb
+      test: nosecurity, localdb
       prod: default
 
 server:
@@ -40,10 +36,14 @@ server:
     include-message: always
 
 management:
-  endpoints:
-    web:
-      exposure:
-        include: "health"
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  health:
+    diskspace:
+      enabled: false
 
 logging:
   level:
@@ -58,11 +58,6 @@ spring:
   config:
     activate:
       on-profile: prod
-
-dcsa:
-  reefer-commercial:
-    cache:
-      delay: 10000
 
 ---
 # A profile for disabling security
@@ -86,7 +81,7 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${db_hostname:localhost}/dcsa_openapi
+    url: jdbc:postgresql://${db_hostname:localhost}/dcsa_reefer_commercial
     username: dcsa_db_owner
     password: 9c072fe8-c59c-11ea-b8d1-7b6577e9f3f5
 

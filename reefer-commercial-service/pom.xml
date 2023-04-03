@@ -26,6 +26,10 @@
 			<artifactId>dcsa-reefer-commercial-domain</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.dcsa.reefer.commercial</groupId>
+			<artifactId>dcsa-reefer-commercial-delivery</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 		</dependency>

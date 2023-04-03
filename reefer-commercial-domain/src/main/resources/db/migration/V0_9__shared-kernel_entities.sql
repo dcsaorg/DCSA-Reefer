@@ -1,4 +1,6 @@
 
+-- We don't really use these, but they have to be here since we depend on shared-kernel and it defines them
+
 CREATE TABLE address (
     id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
     name varchar(100) NULL,
