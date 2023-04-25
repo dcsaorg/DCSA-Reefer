@@ -32,7 +32,7 @@ public class ReeferCommercialEventSubscriptionSpecification {
         predicates.add(
           builder.or(
             builder.isNull(root.get(ReeferCommercialEventSubscription_.EQUIPMENT_REFERENCE)),
-            builder.equal(root.get(ReeferCommercialEventSubscription_.EQUIPMENT_REFERENCE), builder.literal(event.getEquipmentReference()))
+            builder.equal(root.get(ReeferCommercialEventSubscription_.EQUIPMENT_REFERENCE), event.getEquipmentReference())
           )
         );
       }
@@ -40,7 +40,7 @@ public class ReeferCommercialEventSubscriptionSpecification {
       Subquery<ReeferCommercialEventDocumentReference> subQuery = query.subquery(ReeferCommercialEventDocumentReference.class);
       Root<ReeferCommercialEventDocumentReference> subRoot = subQuery.from(ReeferCommercialEventDocumentReference.class);
       subQuery.select(subRoot).where(
-        builder.equal(subRoot.get(ReeferCommercialEventDocumentReference_.EVENT_ID), builder.literal(event.getEventId())),
+        builder.equal(subRoot.get(ReeferCommercialEventDocumentReference_.EVENT_ID), event.getEventId()),
         subRoot.get(ReeferCommercialEventDocumentReference_.TYPE).in(CARRIER_BOOKING_REF_TYPES),
         builder.equal(subRoot.get(ReeferCommercialEventDocumentReference_.VALUE), root.get(ReeferCommercialEventSubscription_.CARRIER_BOOKING_REFERENCE))
       );
